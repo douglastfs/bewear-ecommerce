@@ -21,7 +21,7 @@ const Home = async () => {
       variants: true,
     },
   });
-  console.log(products);
+
   return (
     <>
       <Header />
