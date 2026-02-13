@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import { Card } from "../ui/card";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 const BRANDS = [
   { id: 1, name: "Nike", logo: "/brands/nike.svg" },
