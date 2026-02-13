@@ -42,7 +42,7 @@ const Home = async () => {
     <>
       <Header />
       <div className="space-y-6">
-        <HeroBanner slides={heroBannerSlides} />
+        <HeroBanner slides={heroBannerSlides} autoplay={false} />
 
         <PartnersBrands />
 
