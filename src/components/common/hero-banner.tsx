@@ -96,8 +96,8 @@ const HeroBanner = ({
         plugins={autoplay ? [plugin.current] : []}
         setApi={setApi}
         className="w-full"
-        onMouseEnter={() => plugin.current.stop()}
-        onMouseLeave={() => plugin.current.play()}
+        onMouseEnter={() => plugin.current?.stop?.()}
+        onMouseLeave={() => plugin.current?.reset?.()}
       >
         <CarouselContent className="ml-0">
           {slides.map(slide => (
