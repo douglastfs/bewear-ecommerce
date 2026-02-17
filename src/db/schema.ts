@@ -13,7 +13,7 @@ export const userTable = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").default(false).notNull(),
+  emailVerified: text("email_verified").default("false").notNull(),
   image: text("image"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
@@ -84,6 +84,7 @@ export const verificationTable = pgTable(
 export const userRelations = relations(userTable, ({ many }) => ({
   sessions: many(sessionTable),
   accounts: many(accountTable),
+  shippingAdresses: many(shippingAdressTable),
 }));
 
 export const sessionRelations = relations(sessionTable, ({ one }) => ({
@@ -149,6 +150,36 @@ export const productVariantRelations = relations(
     product: one(productTable, {
       fields: [productVariantTable.productId],
       references: [productTable.id],
+    }),
+  })
+);
+
+export const shippingAdressTable = pgTable("shipping_adress", {
+  id: uuid().primaryKey().defaultRandom(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => userTable.id, { onDelete: "cascade" }),
+  recipientName: text("recipient_name").notNull(),
+  street: text().notNull(),
+  number: text().notNull(),
+  complement: text(),
+  city: text().notNull(),
+  state: text().notNull(),
+  neighborhood: text().notNull(),
+  zipCode: text().notNull(),
+  country: text().notNull(),
+  phone: text().notNull(),
+  email: text().notNull(),
+  cpfOrCnpj: text().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const shippingAdressRelations = relations(
+  shippingAdressTable,
+  ({ one }) => ({
+    user: one(userTable, {
+      fields: [shippingAdressTable.userId],
+      references: [userTable.id],
     }),
   })
 );
