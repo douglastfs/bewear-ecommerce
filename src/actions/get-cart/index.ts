@@ -1,9 +1,10 @@
 "use server";
 
+import { asc } from "drizzle-orm";
 import { headers } from "next/headers";
 
 import { db } from "@/db";
-import { cartTable } from "@/db/schema";
+import { cartItemTable, cartTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 export const getCart = async () => {
@@ -19,6 +20,7 @@ export const getCart = async () => {
     where: (cart, { eq }) => eq(cart.userId, session.user.id),
     with: {
       items: {
+        orderBy: asc(cartItemTable.createdAt),
         with: {
           productVariant: {
             with: {
