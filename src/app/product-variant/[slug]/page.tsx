@@ -5,12 +5,11 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
-import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { productTable, productVariantTable } from "@/db/schema";
 import { formatCentsToBRL } from "@/helpers/money";
 
-import QuantitySelector from "./components/quantity-selector";
+import ProductActions from "./components/product-actions";
 import VariantSelector from "./components/variant-selector";
 
 interface ProductPageProps {
@@ -19,6 +18,7 @@ interface ProductPageProps {
 
 const ProductVariantPage = async ({ params }: ProductPageProps) => {
   const { slug } = await params;
+
   const productVariant = await db.query.productVariantTable.findFirst({
     where: eq(productVariantTable.slug, slug),
     with: {
@@ -32,12 +32,14 @@ const ProductVariantPage = async ({ params }: ProductPageProps) => {
   if (!productVariant) {
     return notFound();
   }
+
   const likelyProducts = await db.query.productTable.findMany({
     where: eq(productTable.categoryId, productVariant.product.categoryId),
     with: {
       variants: true,
     },
   });
+
   return (
     <>
       <Header />
@@ -71,18 +73,7 @@ const ProductVariantPage = async ({ params }: ProductPageProps) => {
           </h3>
         </div>
 
-        {/* quantidade */}
-        <QuantitySelector />
-
-        {/* botões */}
-        <div className="flex flex-col gap-2">
-          <Button variant="outline" className="rounded-full" size="lg">
-            Adicionar á sacola
-          </Button>
-          <Button className="rounded-full" size="lg">
-            Comprar agora
-          </Button>
-        </div>
+        <ProductActions productVariantId={productVariant.id} />
 
         {/* descrição */}
         <div className="">
