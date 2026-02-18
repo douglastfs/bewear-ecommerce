@@ -28,7 +28,10 @@ const CartItem = ({
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <Link href={`/product-variant/${productVariantSlug}`}>
+        <Link
+          href={`/product-variant/${productVariantSlug}`}
+          className="shrink-0"
+        >
           <Image
             src={productVariantImageUrl}
             alt={productVariantName}
@@ -37,17 +40,17 @@ const CartItem = ({
             className="rounded-lg"
           />
         </Link>
-        <div className="flex flex-col gap-1">
-          <p className="text-sm font-semibold">{productName}</p>
+        <div className="flex flex-col">
+          <p className="text-sm/tight font-semibold">{productName}</p>
           <p className="text-muted-foreground text-xs font-medium">
             {productVariantName}
           </p>
-          <div className="flex w-20 items-center justify-between rounded-md border">
-            <Button variant="ghost" className="h-7 w-7" onClick={() => {}}>
+          <div className="mt-1 flex w-20 items-center justify-between rounded-md border">
+            <Button variant="ghost" className="h-6 w-6" onClick={() => {}}>
               {quantity === 1 ? <TrashIcon /> : <MinusIcon />}
             </Button>
             <p className="font-medium">{quantity}</p>
-            <Button variant="ghost" className="h-7 w-7" onClick={() => {}}>
+            <Button variant="ghost" className="h-6 w-6" onClick={() => {}}>
               <PlusIcon />
             </Button>
           </div>
