@@ -3,8 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
-import z from "zod";
 
+import {
+  CreateShippingAddressSchema,
+  createShippingAddressSchema,
+} from "@/actions/create-shipping-address/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,35 +18,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-
-const formSchema = z.object({
-  email: z.email("E-mail inválido."),
-  fullName: z
-    .string("Nome completo inválido.")
-    .trim()
-    .min(2, "Nome completo deve ter pelo menos 2 caracteres."),
-  cpf: z.string("CPF inválido.").min(14, "CPF deve ter 11 dígitos."),
-  phone: z.string("Celular inválido.").trim().min(1, "Celular é obrigatório."),
-  cep: z.string("CEP inválido.").min(9, "CEP deve ter 8 dígitos."),
-  address: z
-    .string("Endereço inválido.")
-    .trim()
-    .min(1, "Endereço é obrigatório."),
-  number: z.string("Número inválido.").trim().min(1, "Número é obrigatório."),
-  complement: z.string().optional(),
-  neighborhood: z
-    .string("Bairro inválido.")
-    .trim()
-    .min(1, "Bairro é obrigatório."),
-  city: z.string("Cidade inválida.").trim().min(1, "Cidade é obrigatória."),
-  state: z.string("Estado inválido.").trim().min(2, "Estado é obrigatório."),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
 
 const NewAddressForm = () => {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+  const { mutateAsync, isPending } = useCreateShippingAddress();
+
+  const form = useForm<CreateShippingAddressSchema>({
+    resolver: zodResolver(createShippingAddressSchema),
     defaultValues: {
       email: "",
       fullName: "",
@@ -59,9 +40,9 @@ const NewAddressForm = () => {
     },
   });
 
-  async function onSubmit(values: FormValues) {
-    // TODO: implementar a lógica de salvar o endereço
-    console.log(values);
+  async function onSubmit(values: CreateShippingAddressSchema) {
+    await mutateAsync(values);
+    form.reset();
   }
 
   return (
@@ -289,8 +270,12 @@ const NewAddressForm = () => {
             />
           </div>
 
-          <Button type="submit" className="w-full rounded-full py-6">
-            Continuar com o pagamento
+          <Button
+            type="submit"
+            className="w-full rounded-full py-6"
+            disabled={isPending}
+          >
+            {isPending ? "Cadastrando..." : "Continuar com o pagamento"}
           </Button>
         </form>
       </Form>
