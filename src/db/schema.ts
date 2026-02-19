@@ -84,7 +84,7 @@ export const verificationTable = pgTable(
 export const userRelations = relations(userTable, ({ many, one }) => ({
   sessions: many(sessionTable),
   accounts: many(accountTable),
-  shippingAdresses: many(shippingAdressTable),
+  shippingAddresses: many(shippingAddressTable),
   cart: one(cartTable, {
     fields: [userTable.id],
     references: [cartTable.userId],
@@ -158,7 +158,7 @@ export const productVariantRelations = relations(
   })
 );
 
-export const shippingAdressTable = pgTable("shipping_adress", {
+export const shippingAddressTable = pgTable("shipping_address", {
   id: uuid().primaryKey().defaultRandom(),
   userId: text("user_id")
     .notNull()
@@ -178,16 +178,16 @@ export const shippingAdressTable = pgTable("shipping_adress", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const shippingAdressRelations = relations(
-  shippingAdressTable,
+export const shippingAddressRelations = relations(
+  shippingAddressTable,
   ({ one }) => ({
     user: one(userTable, {
-      fields: [shippingAdressTable.userId],
+      fields: [shippingAddressTable.userId],
       references: [userTable.id],
     }),
     cart: one(cartTable, {
-      fields: [shippingAdressTable.id],
-      references: [cartTable.shippingAdressId],
+      fields: [shippingAddressTable.id],
+      references: [cartTable.shippingAddressId],
     }),
   })
 );
@@ -197,8 +197,8 @@ export const cartTable = pgTable("cart", {
   userId: text("user_id")
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
-  shippingAdressId: uuid("shipping_adress_id").references(
-    () => shippingAdressTable.id,
+  shippingAddressId: uuid("shipping_address_id").references(
+    () => shippingAddressTable.id,
     { onDelete: "set null" }
   ),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -209,9 +209,9 @@ export const cartRelations = relations(cartTable, ({ one, many }) => ({
     fields: [cartTable.userId],
     references: [userTable.id],
   }),
-  shippingAdress: one(shippingAdressTable, {
-    fields: [cartTable.shippingAdressId],
-    references: [shippingAdressTable.id],
+  shippingAddress: one(shippingAddressTable, {
+    fields: [cartTable.shippingAddressId],
+    references: [shippingAddressTable.id],
   }),
   items: many(cartItemTable),
 }));

@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 
 import { db } from "@/db";
-import { shippingAdressTable } from "@/db/schema";
+import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import {
@@ -29,7 +29,7 @@ export const createShippingAddress = async (
 
   // Cria o endereço de entrega no banco de dados
   const [shippingAddress] = await db
-    .insert(shippingAdressTable)
+    .insert(shippingAddressTable)
     .values({
       userId: session.user.id,
       recipientName: data.fullName,

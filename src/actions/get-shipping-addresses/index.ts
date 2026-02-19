@@ -4,7 +4,7 @@ import { asc } from "drizzle-orm";
 import { headers } from "next/headers";
 
 import { db } from "@/db";
-import { shippingAdressTable } from "@/db/schema";
+import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 export const getShippingAddresses = async () => {
@@ -16,9 +16,9 @@ export const getShippingAddresses = async () => {
     throw new Error("Usuário não autorizado");
   }
 
-  const addresses = await db.query.shippingAdressTable.findMany({
+  const addresses = await db.query.shippingAddressTable.findMany({
     where: (address, { eq }) => eq(address.userId, session.user.id),
-    orderBy: asc(shippingAdressTable.createdAt),
+    orderBy: asc(shippingAddressTable.createdAt),
   });
 
   return addresses;
