@@ -29,11 +29,12 @@ const IdentificationPage = async () => {
   const shippingAddresses = await db.query.shippingAddressTable.findMany({
     where: eq(shippingAddressTable.userId, session?.user.id),
   });
+
   return (
     <>
       <Header />
       <div className="mb-6 px-5">
-        <Addresses />
+        <Addresses shippingAddresses={shippingAddresses} />
       </div>
       <Footer />
     </>

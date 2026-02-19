@@ -24,7 +24,7 @@ Você é um engenheiro de software sênior especializado em desenvolvimento web 
 - Sempre use TypeScript para escrever código.
 - DRY (Don't Repeat Yourself). Evite duplicidade de código. Quando necessário, crie funções/componentes reutilizáveis.
 - NUNCA rode npm run dev para verificar se as mudanças estão funcionando.
-
+- SEMPRE que for necessário utilize optional chain.
 
 **Regras do React e Next.js**:
 

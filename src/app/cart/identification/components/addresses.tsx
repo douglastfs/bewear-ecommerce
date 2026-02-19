@@ -5,13 +5,20 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useShippingAddresses } from "@/hooks/queries/use-shipping-addresses";
+import { shippingAddressTable } from "@/db/schema";
+import { useUserAddresses } from "@/hooks/queries/use-user-addresses";
 
 import NewAddressForm from "./new-address-form";
 
-const Addresses = () => {
+interface AddressesProps {
+  shippingAddresses: (typeof shippingAddressTable.$inferSelect)[];
+}
+
+const Addresses = ({ shippingAddresses }: AddressesProps) => {
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
-  const { data: addresses } = useShippingAddresses();
+  const { data: addresses } = useUserAddresses({
+    initialData: shippingAddresses,
+  });
 
   return (
     <>
