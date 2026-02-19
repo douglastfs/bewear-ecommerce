@@ -73,7 +73,7 @@ const CartItem = ({
         </Link>
         <div className="flex flex-col justify-between">
           <div className="flex flex-col">
-            <p className="text-sm/tight font-semibold">{productName}</p>
+            <p className="text-sm font-semibold">{productName}</p>
             <p className="text-muted-foreground text-xs font-medium">
               {productVariantName}
             </p>
