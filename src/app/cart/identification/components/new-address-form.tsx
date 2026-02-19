@@ -20,7 +20,11 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
 
-const NewAddressForm = () => {
+interface NewAddressFormProps {
+  onAddressCreated?: (addressId: string) => void;
+}
+
+const NewAddressForm = ({ onAddressCreated }: NewAddressFormProps) => {
   const { mutateAsync, isPending } = useCreateShippingAddress();
 
   const form = useForm<CreateShippingAddressSchema>({
@@ -41,10 +45,12 @@ const NewAddressForm = () => {
   });
 
   async function onSubmit(values: CreateShippingAddressSchema) {
-    await mutateAsync(values);
+    const shippingAddress = await mutateAsync(values);
     form.reset();
     // Limpa erros que campos com máscara (PatternFormat) podem re-disparar ao resetar
     setTimeout(() => form.clearErrors(), 0);
+    // Notifica o componente pai do ID do endereço criado
+    onAddressCreated?.(shippingAddress.id);
   }
 
   return (
