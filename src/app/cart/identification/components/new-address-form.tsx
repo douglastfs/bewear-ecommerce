@@ -43,6 +43,8 @@ const NewAddressForm = () => {
   async function onSubmit(values: CreateShippingAddressSchema) {
     await mutateAsync(values);
     form.reset();
+    // Limpa erros que campos com máscara (PatternFormat) podem re-disparar ao resetar
+    setTimeout(() => form.clearErrors(), 0);
   }
 
   return (

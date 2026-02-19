@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 import { createShippingAddress } from "@/actions/create-shipping-address";
 import { CreateShippingAddressSchema } from "@/actions/create-shipping-address/schema";
+import { getUseShippingAddressesQueryKey } from "@/hooks/queries/use-shipping-addresses";
 
 export const getUseCreateShippingAddressMutationKey = () =>
   ["create-shipping-address"] as const;
@@ -15,8 +16,9 @@ export const useCreateShippingAddress = () => {
     mutationFn: (data: CreateShippingAddressSchema) =>
       createShippingAddress(data),
     onSuccess: () => {
-      // Invalida queries relacionadas para atualizar a lista de endereços
-      queryClient.invalidateQueries({ queryKey: ["shipping-addresses"] });
+      queryClient.invalidateQueries({
+        queryKey: getUseShippingAddressesQueryKey(),
+      });
       toast.success("Endereço cadastrado com sucesso!");
     },
     onError: () => {

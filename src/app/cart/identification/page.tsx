@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { db } from "@/db";
 import { cartTable } from "@/db/schema";
@@ -28,9 +29,10 @@ const IdentificationPage = async () => {
   return (
     <>
       <Header />
-      <div className="px-5">
+      <div className="mb-6 px-5">
         <Addresses />
       </div>
+      <Footer />
     </>
   );
 };
