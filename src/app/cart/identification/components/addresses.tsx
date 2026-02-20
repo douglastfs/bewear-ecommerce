@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { shippingAddressTable } from "@/db/schema";
 import { useUpdateCartShippingAddress } from "@/hooks/mutations/use-update-cart-shipping-address";
 import { useUserAddresses } from "@/hooks/queries/use-user-addresses";
 
+import { formatAddress } from "../../helpers/address";
 import NewAddressForm from "./new-address-form";
 
 interface AddressesProps {
@@ -22,6 +24,7 @@ const Addresses = ({
   shippingAddresses,
   selectedShippingAddressId,
 }: AddressesProps) => {
+  const router = useRouter();
   const [selectedAddress, setSelectedAddress] = useState<string | null>(
     selectedShippingAddressId ?? null
   );
@@ -38,6 +41,7 @@ const Addresses = ({
   // Vincula o endereço ao carrinho
   const handleContinueWithPayment = async (addressId: string) => {
     await updateCartAddress({ shippingAddressId: addressId });
+    router.push("/cart/confirmation");
   };
 
   // Callback chamado quando um novo endereço é criado pelo formulário
@@ -70,12 +74,7 @@ const Addresses = ({
                       htmlFor={address.id}
                       className="text-sm leading-normal font-medium"
                     >
-                      {address.recipientName}, {address.street},{" "}
-                      {address.number}
-                      {address.complement
-                        ? `, ${address.complement}`
-                        : ""}, {address.neighborhood}, {address.city} -{" "}
-                      {address.state}, {address.zipCode}
+                      {formatAddress(address)}
                     </Label>
                   </div>
                 </CardContent>
