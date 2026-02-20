@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -97,7 +98,14 @@ const Addresses = ({
               disabled={isPending}
               onClick={() => handleContinueWithPayment(selectedAddress)}
             >
-              {isPending ? "Processando..." : "Continuar com o pagamento"}
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {"Processando..."}
+                </>
+              ) : (
+                "Continuar com o pagamento"
+              )}
             </Button>
           )}
 
