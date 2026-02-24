@@ -1,11 +1,9 @@
-import { desc, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
-import { db } from "@/db";
-import { orderTable } from "@/db/schema";
+import { getOrdersByUserId } from "@/data-access/order";
 import { auth } from "@/lib/auth";
 
 import OrderCard from "./components/order-card";
@@ -19,21 +17,7 @@ const MyOrdersPage = async () => {
     redirect("/login");
   }
 
-  const orders = await db.query.orderTable.findMany({
-    where: eq(orderTable.userId, session.user.id),
-    orderBy: desc(orderTable.createdAt),
-    with: {
-      items: {
-        with: {
-          productVariant: {
-            with: {
-              product: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const orders = await getOrdersByUserId(session.user.id);
 
   // Numeração inversa: o pedido mais antigo é #001, o mais recente é #N
   const totalOrders = orders.length;

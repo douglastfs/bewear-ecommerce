@@ -4,12 +4,11 @@ import Header from "@/components/common/header";
 import HeroBanner from "@/components/common/hero-banner";
 import PartnersBrands from "@/components/common/partners-brands";
 import ProductList from "@/components/common/product-list";
-
-import { getCategories } from "./data/categories/get";
+import { getCategories } from "@/data-access/category";
 import {
   getNewlyCreatedProducts,
   getProductsWithVariants,
-} from "./data/products/get";
+} from "@/data-access/product";
 
 const heroBannerSlides = [
   {
