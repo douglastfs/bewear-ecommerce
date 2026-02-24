@@ -59,6 +59,14 @@ export const getProductVariantBySlug = async (
   });
 };
 
+export const getProductVariantById = async (
+  id: string
+): Promise<ProductVariant | undefined> => {
+  return db.query.productVariantTable.findFirst({
+    where: eq(productVariantTable.id, id),
+  });
+};
+
 export const getProductsByCategoryId = async (
   categoryId: string
 ): Promise<ProductWithVariants[]> => {

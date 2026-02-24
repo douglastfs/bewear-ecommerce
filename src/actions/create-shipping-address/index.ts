@@ -3,8 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
-import { db } from "@/db";
-import { shippingAddressTable } from "@/db/schema";
+import { createShippingAddress as createShippingAddressDAL } from "@/data-access/shipping-address";
 import { auth } from "@/lib/auth";
 
 import {
@@ -28,25 +27,22 @@ export const createShippingAddress = async (
     throw new Error("Usuário não autorizado");
   }
 
-  // Cria o endereço de entrega no banco de dados
-  const [shippingAddress] = await db
-    .insert(shippingAddressTable)
-    .values({
-      userId: session.user.id,
-      recipientName: data.fullName,
-      street: data.address,
-      number: data.number,
-      complement: data.complement ?? null,
-      city: data.city,
-      state: data.state,
-      neighborhood: data.neighborhood,
-      zipCode: data.cep,
-      country: "BR",
-      phone: data.phone,
-      email: data.email,
-      cpfOrCnpj: data.cpf,
-    })
-    .returning();
+  // Cria o endereço de entrega via DAL
+  const shippingAddress = await createShippingAddressDAL({
+    userId: session.user.id,
+    recipientName: data.fullName,
+    street: data.address,
+    number: data.number,
+    complement: data.complement ?? null,
+    city: data.city,
+    state: data.state,
+    neighborhood: data.neighborhood,
+    zipCode: data.cep,
+    country: "BR",
+    phone: data.phone,
+    email: data.email,
+    cpfOrCnpj: data.cpf,
+  });
 
   revalidatePath("/cart/identification");
 

@@ -1,10 +1,11 @@
 "use server";
 
-import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 
-import { db } from "@/db";
-import { cartTable } from "@/db/schema";
+import {
+  getCartSimpleByUserId,
+  updateCartShippingAddressId,
+} from "@/data-access/cart";
 import { auth } from "@/lib/auth";
 
 import {
@@ -29,20 +30,12 @@ export const updateCartShippingAddress = async (
   }
 
   // Busca o carrinho do usuário
-  const cart = await db.query.cartTable.findFirst({
-    where: eq(cartTable.userId, session.user.id),
-  });
+  const cart = await getCartSimpleByUserId(session.user.id);
 
   if (!cart) {
     throw new Error("Carrinho não encontrado");
   }
 
   // Vincula o endereço de entrega ao carrinho
-  const [updatedCart] = await db
-    .update(cartTable)
-    .set({ shippingAddressId: data.shippingAddressId })
-    .where(eq(cartTable.id, cart.id))
-    .returning();
-
-  return updatedCart;
+  return updateCartShippingAddressId(cart.id, data.shippingAddressId);
 };

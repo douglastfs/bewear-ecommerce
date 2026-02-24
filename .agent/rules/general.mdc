@@ -34,7 +34,7 @@ Você é um engenheiro de software sênior especializado em desenvolvimento web 
 - Quando necessário, crie componentes e funções reutilizáveis para reduzir a duplicidade de código.
 - Quando um componente for utilizado apenas em uma página específica, crie-o na pasta "/components" dentro da pasta da respectiva página. Veja o exemplo de [addresses.tsx](@/src/app/cart/identification/components/addresses.tsx).
 - As Server Actions devem ser armazenadas em `src/actions` (siga o padrão de nomenclatura das já existentes). Cada server action deve ficar em uma pasta com dois arquivos: index.ts e schema.ts. SEMPRE veja [add-cart-product](@/src/actions/add-cart-product) e use-o como referência.
-- Sempre que for necessário interagir com o banco de dados, use o [index.ts](@/src/db/index.ts) e veja o arquivo [schema.ts](@/src/db/schema.ts)
+- Todo acesso ao banco de dados deve passar pela camada DAL em `src/data-access/`. NUNCA importe `@/db` ou `@/db/schema` diretamente em pages, componentes ou server actions. Veja [product.ts](@/src/data-access/product.ts) como referência. Use [schema.ts](@/src/db/schema.ts) apenas como documentação do modelo de dados.
 - Use React Query para interagir com Server Actions em Client Components. SEMPRE use os componentes [cart-item.tsx](@/src/components/common/cart-item.tsx) [cart.tsx](@/src/components/common/cart.tsx) como exemplo.
 - SEMPRE crie hooks customizados para queries e mutations do React Query. SEMPRE use os [use-cart.ts](@/src/hooks/queries/use-cart.ts) e [use-increase-cart-product.ts](@/src/hooks/mutations/use-increase-cart-product.ts) como referência.
 - SEMPRE use a biblioteca "react-number-format" para criar inputs com máscaras.

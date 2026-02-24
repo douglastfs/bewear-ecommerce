@@ -1,10 +1,8 @@
 "use server";
 
-import { asc } from "drizzle-orm";
 import { headers } from "next/headers";
 
-import { db } from "@/db";
-import { cartItemTable, cartTable } from "@/db/schema";
+import { createCart, getCartByUserId } from "@/data-access/cart";
 import { auth } from "@/lib/auth";
 
 export const getCart = async () => {
@@ -16,30 +14,10 @@ export const getCart = async () => {
     throw new Error("Unauthorized");
   }
 
-  const cart = await db.query.cartTable.findFirst({
-    where: (cart, { eq }) => eq(cart.userId, session.user.id),
-    with: {
-      shippingAddress: true,
-      items: {
-        orderBy: asc(cartItemTable.createdAt),
-        with: {
-          productVariant: {
-            with: {
-              product: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const cart = await getCartByUserId(session.user.id);
 
   if (!cart) {
-    const [newCart] = await db
-      .insert(cartTable)
-      .values({
-        userId: session.user.id,
-      })
-      .returning();
+    const newCart = await createCart(session.user.id);
     return {
       ...newCart,
       items: [],
