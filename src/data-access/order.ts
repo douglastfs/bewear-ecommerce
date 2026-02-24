@@ -3,12 +3,7 @@ import "server-only";
 import { desc, eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import {
-  orderItemTable,
-  orderTable,
-  productTable,
-  productVariantTable,
-} from "@/db/schema";
+import { orderItemTable, orderTable } from "@/db/schema";
 
 import type { Product, ProductVariant } from "./product";
 
@@ -45,4 +40,11 @@ export const getOrdersByUserId = async (
       },
     },
   });
+};
+
+export const updateOrderStatus = async (
+  orderId: string,
+  status: Order["status"]
+): Promise<void> => {
+  await db.update(orderTable).set({ status }).where(eq(orderTable.id, orderId));
 };

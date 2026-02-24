@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { shippingAddressTable } from "@/db/schema";
+import type { ShippingAddress } from "@/data-access/shipping-address";
 import { useUpdateCartShippingAddress } from "@/hooks/mutations/use-update-cart-shipping-address";
 import { useUserAddresses } from "@/hooks/queries/use-user-addresses";
 
@@ -16,7 +16,7 @@ import { formatAddress } from "../../helpers/address";
 import NewAddressForm from "./new-address-form";
 
 interface AddressesProps {
-  shippingAddresses: (typeof shippingAddressTable.$inferSelect)[];
+  shippingAddresses: ShippingAddress[];
   selectedShippingAddressId?: string | null;
 }
 

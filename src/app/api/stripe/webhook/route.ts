@@ -1,9 +1,7 @@
-import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import { db } from "@/db";
-import { orderTable } from "@/db/schema";
+import { updateOrderStatus } from "@/data-access/order";
 
 export const POST = async (request: Request) => {
   // Verificar se as variáveis de ambiente estão definidas
@@ -37,11 +35,8 @@ export const POST = async (request: Request) => {
       return NextResponse.error();
     }
 
-    // Atualizar o status do pedido
-    await db
-      .update(orderTable)
-      .set({ status: "paid" })
-      .where(eq(orderTable.id, orderId));
+    // Atualizar o status do pedido via DAL
+    await updateOrderStatus(orderId, "paid");
   }
 
   return NextResponse.json({ received: true });

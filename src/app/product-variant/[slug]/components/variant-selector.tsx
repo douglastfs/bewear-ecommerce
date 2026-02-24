@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { productVariantTable } from "@/db/schema";
+import type { ProductVariant } from "@/data-access/product";
 
 interface VariantSelectorProps {
   selectedVariantSlug: string;
-  variants: (typeof productVariantTable.$inferSelect)[];
+  variants: ProductVariant[];
 }
 
 const VariantSelector = ({
