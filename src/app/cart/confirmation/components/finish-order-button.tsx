@@ -28,7 +28,7 @@ const FinishOrderButton = () => {
     });
     // Redireciona para a página de pagamento da Stripe
     if (checkoutSession.url) {
-      window.location.href = checkoutSession.url;
+      router.push(checkoutSession.url);
     }
     setSuccessDialogIsOpen(true);
   };
