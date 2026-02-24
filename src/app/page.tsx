@@ -1,42 +1,37 @@
-import { desc } from "drizzle-orm";
-
 import CategorySelector from "@/components/common/category-selector";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import HeroBanner from "@/components/common/hero-banner";
 import PartnersBrands from "@/components/common/partners-brands";
 import ProductList from "@/components/common/product-list";
-import { db } from "@/db";
-import { productTable } from "@/db/schema";
+
+import { getCategories } from "./data/categories/get";
+import {
+  getNewlyCreatedProducts,
+  getProductsWithVariants,
+} from "./data/products/get";
 
 const heroBannerSlides = [
   {
     id: 1,
     image: "/banner-01.png",
     alt: "Leve uma vida com estilo",
-    cta: { label: "Ver coleção", href: "/authentication" },
+    cta: { label: "Ver coleção", href: "/category/jaquetas-moletons" },
   },
   {
     id: 2,
     image: "/banner-02.png",
     alt: "Seja autêntico",
-    cta: { label: "Ver coleção", href: "/authentication" },
+    cta: { label: "Ver coleção", href: "/category/camisetas" },
   },
 ];
 
 const Home = async () => {
-  const products = await db.query.productTable.findMany({
-    with: {
-      variants: true,
-    },
-  });
-  const categories = await db.query.categoryTable.findMany();
-  const newlyCreatedProducts = await db.query.productTable.findMany({
-    orderBy: [desc(productTable.createdAt)],
-    with: {
-      variants: true,
-    },
-  });
+  const [products, categories, newlyCreatedProducts] = await Promise.all([
+    getProductsWithVariants(),
+    getCategories(),
+    getNewlyCreatedProducts(),
+  ]);
 
   return (
     <>
