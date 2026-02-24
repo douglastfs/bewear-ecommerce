@@ -39,3 +39,11 @@ Você é um engenheiro de software sênior especializado em desenvolvimento web 
 - SEMPRE crie hooks customizados para queries e mutations do React Query. SEMPRE use os [use-cart.ts](@/src/hooks/queries/use-cart.ts) e [use-increase-cart-product.ts](@/src/hooks/mutations/use-increase-cart-product.ts) como referência.
 - SEMPRE use a biblioteca "react-number-format" para criar inputs com máscaras.
 - SEMPRE crie e exporte uma função que retorne a query key de uma query e mutation key de uma mutation. SEMPRE use os [use-cart.ts](@/src/hooks/queries/use-cart.ts) e [use-increase-cart-product.ts](@/src/hooks/mutations/use-increase-cart-product.ts) como referência.
+
+**Regras de organização e padrões do projeto:**
+
+- Funções utilitárias puras (formatação, tradução, cálculos) devem ser criadas em `src/helpers/` com nomes descritivos do domínio (ex: `money.ts`, `order.ts`). SEMPRE verifique se já existe um helper antes de criar um novo.
+- Preços SEMPRE devem ser armazenados e manipulados em centavos (ex: `priceInCents`, `totalPriceInCents`). Para exibição, SEMPRE use a função `formatCentsToBRL` do helper [money.ts](@/src/helpers/money.ts).
+- SEMPRE use tokens de cor do shadcn/Tailwind (ex: `text-muted-foreground`, `bg-accent`, `text-primary`, `border-border`). NUNCA use cores hardcoded em hexadecimal (ex: `text-[#656565]`).
+- Em páginas que requerem autenticação, SEMPRE use o padrão: `const session = await auth.api.getSession({ headers: await headers() }); if (!session?.user.id) redirect("/login");`. Use [auth.ts](@/src/lib/auth.ts) como referência.
+- Hooks de queries devem seguir o padrão `src/hooks/queries/use-{recurso}.ts` e hooks de mutations devem seguir `src/hooks/mutations/use-{ação}-{recurso}.ts`. SEMPRE exporte uma função `getUse{Nome}QueryKey()` para queries e `getUse{Nome}MutationKey()` para mutations.

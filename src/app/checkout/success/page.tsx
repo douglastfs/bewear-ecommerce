@@ -41,7 +41,7 @@ const CheckoutSuccessPage = () => {
 
           <DialogFooter className="w-full flex-col gap-3 sm:flex-col">
             <Button size="lg" className="w-full rounded-full">
-              Ver meu pedido
+              <Link href="/my-orders">Ver meu pedido</Link>
             </Button>
             <Button
               asChild
