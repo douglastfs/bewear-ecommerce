@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { createCheckoutSession } from "@/actions/create-checkout-session";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,18 +20,25 @@ import { useFinishOrder } from "@/hooks/mutations/use-finish-order";
 const FinishOrderButton = () => {
   const router = useRouter();
   const [successDialogIsOpen, setSuccessDialogIsOpen] = useState(false);
-  const finishOrderMutation = useFinishOrder({
-    onSuccess: () => {
-      setSuccessDialogIsOpen(true);
-    },
-  });
+  const finishOrderMutation = useFinishOrder();
+  const handleFinishOrder = async () => {
+    const { orderId } = await finishOrderMutation.mutateAsync();
+    const checkoutSession = await createCheckoutSession({
+      orderId,
+    });
+    // Redireciona para a página de pagamento da Stripe
+    if (checkoutSession.url) {
+      window.location.href = checkoutSession.url;
+    }
+    setSuccessDialogIsOpen(true);
+  };
 
   return (
     <>
       <Button
         size="lg"
         className="w-full rounded-full"
-        onClick={() => finishOrderMutation.mutate()}
+        onClick={handleFinishOrder}
         disabled={finishOrderMutation.isPending}
       >
         {finishOrderMutation.isPending && (

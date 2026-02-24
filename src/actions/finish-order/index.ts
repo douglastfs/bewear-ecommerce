@@ -45,6 +45,8 @@ export const finishOrder = async () => {
     return acc + item.productVariant.priceInCents * item.quantity;
   }, 0);
 
+  let orderId: string | undefined;
+
   // Garantir que as operações sejam atômicas
   await db.transaction(async tx => {
     const shippingAddress = cart.shippingAddress;
@@ -76,6 +78,8 @@ export const finishOrder = async () => {
       throw new Error("Failed to create order");
     }
 
+    orderId = order.id;
+
     const orderItemsPayload: (typeof orderItemTable.$inferInsert)[] =
       cart.items.map(item => ({
         orderId: order.id,
@@ -88,4 +92,10 @@ export const finishOrder = async () => {
     await tx.delete(cartTable).where(eq(cartTable.userId, session.user.id));
     await tx.delete(cartItemTable).where(eq(cartItemTable.cartId, cart.id));
   });
+
+  if (!orderId) {
+    throw new Error("Failed to create order");
+  }
+
+  return { orderId };
 };
