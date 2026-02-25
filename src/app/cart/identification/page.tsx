@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import CartSummary from "@/components/common/cart-summary";
+import CheckoutSteps from "@/components/common/checkout-steps";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { getCartByUserId } from "@/data-access/cart";
@@ -31,6 +32,7 @@ const IdentificationPage = async () => {
     <>
       <Header />
       <div className="mb-9 space-y-4 px-5">
+        <CheckoutSteps currentStep={1} />
         <Addresses
           shippingAddresses={shippingAddresses}
           selectedShippingAddressId={cart.shippingAddressId}

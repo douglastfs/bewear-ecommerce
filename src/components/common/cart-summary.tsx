@@ -29,7 +29,7 @@ const CartSummary = ({
       <CardHeader className="flex-row">
         <CardTitle className="flex items-center justify-between text-lg">
           Seu pedido
-          <Link href="/cart" className="text-sm font-semibold underline">
+          <Link href="/" className="text-sm font-semibold underline">
             Editar
           </Link>
         </CardTitle>

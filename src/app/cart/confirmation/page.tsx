@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import AddressCard from "@/components/common/address-card";
 import CartSummary from "@/components/common/cart-summary";
+import CheckoutSteps from "@/components/common/checkout-steps";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { getCartByUserId } from "@/data-access/cart";
@@ -35,6 +36,7 @@ const ConfirmationPage = async () => {
     <>
       <Header />
       <div className="mb-8 space-y-4 px-5">
+        <CheckoutSteps currentStep={2} />
         <AddressCard address={formatAddress(cart.shippingAddress)}>
           <FinishOrderButton />
         </AddressCard>
