@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-import { categoryTable } from "@/db/schema";
+import type { Category } from "@/data-access/category";
 
 import { Button } from "../ui/button";
 
 interface CategorySelectorProps {
-  categories: (typeof categoryTable.$inferSelect)[];
+  categories: Category[];
 }
 
 const CategorySelector = ({ categories }: CategorySelectorProps) => {

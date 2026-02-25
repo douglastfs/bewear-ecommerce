@@ -1,14 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { productTable, productVariantTable } from "@/db/schema";
+import type { ProductWithVariants } from "@/data-access/product";
 import { formatCentsToBRL } from "@/helpers/money";
 import { cn } from "@/lib/utils";
 
 interface ProductItemProps {
-  product: typeof productTable.$inferSelect & {
-    variants: (typeof productVariantTable.$inferSelect)[];
-  };
+  product: ProductWithVariants;
   textContainerClassName?: string;
 }
 
