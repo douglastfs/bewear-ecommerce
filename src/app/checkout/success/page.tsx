@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +15,12 @@ import {
 } from "@/components/ui/dialog";
 
 const CheckoutSuccessPage = () => {
+  const router = useRouter();
+
   return (
     <>
-      <Dialog open={true} onOpenChange={() => {}}>
+      <Dialog open={true} onOpenChange={() => router.push("/")}>
         <DialogContent
-          showCloseButton={false}
           className="flex flex-col items-center gap-8 rounded-3xl px-5 pt-16 pb-8"
           onInteractOutside={e => e.preventDefault()}
         >
@@ -40,7 +42,7 @@ const CheckoutSuccessPage = () => {
           </DialogHeader>
 
           <DialogFooter className="w-full flex-col gap-3 sm:flex-col">
-            <Button size="lg" className="w-full rounded-full">
+            <Button asChild size="lg" className="w-full rounded-full">
               <Link href="/my-orders">Ver meu pedido</Link>
             </Button>
             <Button

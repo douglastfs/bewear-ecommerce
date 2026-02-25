@@ -1,13 +1,13 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import CartSummary from "@/components/common/cart-summary";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { getCartByUserId } from "@/data-access/cart";
 import { getShippingAddressesByUserId } from "@/data-access/shipping-address";
 import { auth } from "@/lib/auth";
 
-import CartSummary from "../components/cart-summary";
 import Addresses from "./components/addresses";
 
 const IdentificationPage = async () => {

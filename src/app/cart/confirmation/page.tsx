@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import CartSummary from "@/components/common/cart-summary";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { getCartByUserId } from "@/data-access/cart";
 import { auth } from "@/lib/auth";
 
-import CartSummary from "../components/cart-summary";
 import { formatAddress } from "../helpers/address";
 import FinishOrderButton from "./components/finish-order-button";
 
