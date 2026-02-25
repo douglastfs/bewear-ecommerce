@@ -1,11 +1,10 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import AddressCard from "@/components/common/address-card";
 import CartSummary from "@/components/common/cart-summary";
 import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { getCartByUserId } from "@/data-access/cart";
 import { auth } from "@/lib/auth";
 
@@ -31,28 +30,14 @@ const ConfirmationPage = async () => {
   const CartTotalPriceInCents = cart.items.reduce((acc, item) => {
     return acc + item.productVariant.priceInCents * item.quantity;
   }, 0);
+
   return (
     <>
       <Header />
       <div className="mb-8 space-y-4 px-5">
-        <Card>
-          <CardHeader>
-            <CardTitle>Confirmação</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <Card>
-              <CardContent>
-                <Label
-                  htmlFor={cart.shippingAddress?.id}
-                  className="text-sm leading-normal font-medium"
-                >
-                  {formatAddress(cart.shippingAddress)}
-                </Label>
-              </CardContent>
-            </Card>
-            <FinishOrderButton />
-          </CardContent>
-        </Card>
+        <AddressCard address={formatAddress(cart.shippingAddress)}>
+          <FinishOrderButton />
+        </AddressCard>
         <CartSummary
           subTotalInCents={CartTotalPriceInCents}
           totalInCents={CartTotalPriceInCents}

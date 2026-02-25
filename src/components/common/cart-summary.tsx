@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -25,8 +26,13 @@ const CartSummary = ({
 }: CartSummaryProps) => {
   return (
     <Card className="rounded-3xl border-[1.6px] border-[#f1f1f1] px-0 py-8 shadow-none">
-      <CardHeader>
-        <CardTitle className="text-lg">Seu pedido</CardTitle>
+      <CardHeader className="flex-row">
+        <CardTitle className="flex items-center justify-between text-lg">
+          Seu pedido
+          <Link href="/cart" className="text-sm font-semibold underline">
+            Editar
+          </Link>
+        </CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-8">

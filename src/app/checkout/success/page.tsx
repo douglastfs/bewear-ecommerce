@@ -1,61 +1,72 @@
-"use client";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import AddressCard from "@/components/common/address-card";
+import CartSummary from "@/components/common/cart-summary";
+import CheckoutSteps from "@/components/common/checkout-steps";
+import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
+import { getOrderById, getOrderItemsByOrderId } from "@/data-access/order";
+import { auth } from "@/lib/auth";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import SuccessDialog from "./components/success-dialog";
 
-const CheckoutSuccessPage = () => {
-  const router = useRouter();
+interface CheckoutSuccessPageProps {
+  searchParams: Promise<{ orderId?: string }>;
+}
+
+const CheckoutSuccessPage = async ({
+  searchParams,
+}: CheckoutSuccessPageProps) => {
+  const { orderId } = await searchParams;
+
+  if (!orderId) {
+    redirect("/");
+  }
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user) {
+    redirect("/authentication");
+  }
+
+  const order = await getOrderById(orderId);
+
+  if (!order || order.userId !== session.user.id) {
+    redirect("/");
+  }
+
+  const orderItems = await getOrderItemsByOrderId(orderId);
+
+  const formattedAddress = `${order.recipientName}, ${order.street}, ${order.number}${order.complement ? `, ${order.complement}` : ""}, ${order.neighborhood}, ${order.zipCode}, ${order.city}, ${order.state}, Brasil`;
 
   return (
     <>
-      <Dialog open={true} onOpenChange={() => router.push("/")}>
-        <DialogContent
-          className="flex flex-col items-center gap-8 rounded-3xl px-5 pt-16 pb-8"
-          onInteractOutside={e => e.preventDefault()}
-        >
-          <Image
-            src="/order-success.svg"
-            alt="Pedido efetuado com sucesso"
-            width={251}
-            height={234}
-          />
+      <Header />
+      <div className="mb-8 space-y-4 px-5">
+        <CheckoutSteps currentStep={3} />
 
-          <DialogHeader className="items-center gap-6">
-            <DialogTitle className="text-2xl font-semibold text-black">
-              Pedido Efetuado!
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground text-sm font-medium">
-              Seu pedido foi efetuado com sucesso. Você pode acompanhar o status
-              na seção de &ldquo;Meus Pedidos&rdquo;.
-            </DialogDescription>
-          </DialogHeader>
+        <AddressCard address={formattedAddress} />
 
-          <DialogFooter className="w-full flex-col gap-3 sm:flex-col">
-            <Button asChild size="lg" className="w-full rounded-full">
-              <Link href="/my-orders">Ver meu pedido</Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="w-full rounded-full border-[1.6px] border-[#f1f1f1] text-black hover:bg-gray-50"
-            >
-              <Link href="/">Página inicial</Link>
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+        {/* Resumo do pedido */}
+        <CartSummary
+          subTotalInCents={order.totalPriceInCents}
+          totalInCents={order.totalPriceInCents}
+          products={orderItems.map(item => ({
+            name: item.productVariant.product.name,
+            variantName: item.productVariant.name,
+            quantity: item.quantity,
+            priceInCents: item.priceInCents * item.quantity,
+            imageUrl: item.productVariant.imageUrl,
+          }))}
+        />
+      </div>
+      <Footer />
+
+      {/* Dialog de sucesso por cima de tudo */}
+      <SuccessDialog />
     </>
   );
 };
