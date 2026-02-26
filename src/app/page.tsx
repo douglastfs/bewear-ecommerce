@@ -16,10 +16,15 @@ const Home = async () => {
   ]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 lg:space-y-10">
       <HeroBanner
         slides={[
-          { id: 1, image: "/banner-01.png", alt: "Leve uma vida com estilo" },
+          {
+            id: 1,
+            image: "/banner-01.png",
+            desktopImage: "/banner-01-desktop-view.png",
+            alt: "Leve uma vida com estilo",
+          },
         ]}
       />
 
@@ -27,7 +32,7 @@ const Home = async () => {
 
       <ProductList title="Mais vendidos" products={products} />
 
-      <div className="px-5">
+      <div className="mx-auto max-w-[1440px] px-5 lg:px-11">
         <CategorySelector categories={categories} />
       </div>
 

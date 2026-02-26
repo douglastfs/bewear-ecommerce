@@ -245,7 +245,7 @@ const Header = () => {
         </div>
 
         {/* Linha inferior — Navegação por categorias */}
-        <nav className="flex items-center justify-center gap-10 px-11 pb-4">
+        <nav className="flex items-center justify-center gap-16 px-11 pb-4">
           {categories?.map(category => (
             <Link
               key={category.id}

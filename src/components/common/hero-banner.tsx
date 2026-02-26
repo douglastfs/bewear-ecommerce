@@ -17,6 +17,7 @@ import {
 interface HeroBannerSlide {
   id: number;
   image: string;
+  desktopImage?: string;
   alt: string;
   cta?: {
     label: string;
@@ -66,16 +67,37 @@ const HeroBanner = ({
     const slide = slides[0];
 
     return (
-      <section className="px-5">
-        <div className="relative overflow-hidden rounded-2xl">
-          <Image
-            src={slide.image}
-            alt={slide.alt}
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="h-auto w-full"
-          />
+      <section className="mx-auto max-w-[1440px] px-5 lg:px-11">
+        <div className="relative overflow-hidden rounded-2xl lg:rounded-[24px]">
+          {slide.desktopImage ? (
+            <>
+              <Image
+                src={slide.image}
+                alt={slide.alt}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="h-auto w-full lg:hidden"
+              />
+              <Image
+                src={slide.desktopImage}
+                alt={slide.alt}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="hidden h-auto w-full lg:block"
+              />
+            </>
+          ) : (
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-auto w-full"
+            />
+          )}
           {slide.cta && (
             <div className="absolute bottom-6 flex w-full justify-center px-5">
               <Button asChild className="w-40 rounded-full">
@@ -90,27 +112,48 @@ const HeroBanner = ({
 
   // Carousel (2+ slides)
   return (
-    <section className="space-y-3">
+    <section className="space-y-3 lg:space-y-5">
       <Carousel
         opts={{ loop }}
         plugins={autoplay ? [plugin.current] : []}
         setApi={setApi}
-        className="w-full"
+        className="mx-auto w-full max-w-[1440px]"
         onMouseEnter={() => plugin.current?.stop?.()}
         onMouseLeave={() => plugin.current?.reset?.()}
       >
         <CarouselContent className="ml-0">
           {slides.map(slide => (
-            <CarouselItem key={slide.id} className="px-5">
-              <div className="relative overflow-hidden rounded-2xl">
-                <Image
-                  src={slide.image}
-                  alt={slide.alt}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="h-auto w-full"
-                />
+            <CarouselItem key={slide.id} className="px-5 lg:px-11">
+              <div className="relative overflow-hidden rounded-2xl lg:rounded-[24px]">
+                {slide.desktopImage ? (
+                  <>
+                    <Image
+                      src={slide.image}
+                      alt={slide.alt}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="h-auto w-full lg:hidden"
+                    />
+                    <Image
+                      src={slide.desktopImage}
+                      alt={slide.alt}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="hidden h-auto w-full lg:block"
+                    />
+                  </>
+                ) : (
+                  <Image
+                    src={slide.image}
+                    alt={slide.alt}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="h-auto w-full"
+                  />
+                )}
                 {slide.cta && (
                   <div className="absolute bottom-6 flex w-full justify-center px-5">
                     <Button
@@ -132,17 +175,17 @@ const HeroBanner = ({
           <>
             <button
               onClick={() => api?.scrollPrev()}
-              className="absolute top-1/2 left-7 -translate-y-1/2 rounded-full bg-white/80 p-1.5 shadow-md backdrop-blur-sm transition-colors hover:bg-white"
+              className="absolute top-1/2 left-7 -translate-y-1/2 rounded-full bg-white/80 p-1.5 shadow-md backdrop-blur-sm transition-colors hover:bg-white lg:left-16 lg:p-3"
               aria-label="Slide anterior"
             >
-              <ChevronLeft className="size-5 text-gray-800" />
+              <ChevronLeft className="size-5 text-gray-800 lg:size-6" />
             </button>
             <button
               onClick={() => api?.scrollNext()}
-              className="absolute top-1/2 right-7 -translate-y-1/2 rounded-full bg-white/80 p-1.5 shadow-md backdrop-blur-sm transition-colors hover:bg-white"
+              className="absolute top-1/2 right-7 -translate-y-1/2 rounded-full bg-white/80 p-1.5 shadow-md backdrop-blur-sm transition-colors hover:bg-white lg:right-16 lg:p-3"
               aria-label="Próximo slide"
             >
-              <ChevronRight className="size-5 text-gray-800" />
+              <ChevronRight className="size-5 text-gray-800 lg:size-6" />
             </button>
           </>
         )}
