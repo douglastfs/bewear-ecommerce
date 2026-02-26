@@ -28,25 +28,32 @@ const BRANDS = [
 
 const PartnersBrands = () => {
   return (
-    <section className="space-y-6">
-      <h3 className="px-5 font-semibold">Marcas parceiras</h3>
-      <div className="flex overflow-hidden">
-        <ul className="animate-infinite-scroll flex gap-6 px-5">
-          {BRANDS.map(brand => (
-            <li key={brand.id} className="flex flex-col items-center gap-4">
-              <Card className="flex size-20 items-center justify-center rounded-3xl border-[1.6px] border-[#f1f1f1] bg-white p-0 shadow-none">
-                <Image
-                  src={brand.logo}
-                  alt={brand.name}
-                  width={32}
-                  height={32}
-                  className={`${brand.className} object-contain`}
-                />
-              </Card>
-              <span className="text-sm font-medium">{brand.name}</span>
-            </li>
-          ))}
-        </ul>
+    <section className="mx-auto max-w-[1440px] space-y-6 lg:space-y-9">
+      <h3 className="px-5 font-semibold lg:px-11 lg:text-2xl">
+        Marcas parceiras
+      </h3>
+
+      <div className="lg:px-11">
+        <div className="flex overflow-hidden">
+          <ul className="animate-infinite-scroll flex gap-6 px-5 lg:gap-8 lg:px-0">
+            {BRANDS.map(brand => (
+              <li key={brand.id} className="flex flex-col items-center gap-4">
+                <Card className="flex size-20 items-center justify-center rounded-3xl border-[1.6px] border-[#f1f1f1] bg-white p-0 shadow-none lg:h-[100px] lg:w-[130px]">
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={32}
+                    height={32}
+                    className={`${brand.className ?? ""} object-contain lg:size-[50px]`}
+                  />
+                </Card>
+                <span className="text-sm font-medium whitespace-nowrap lg:text-base">
+                  {brand.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

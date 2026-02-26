@@ -32,13 +32,15 @@ const Home = async () => {
 
       <ProductList title="Mais vendidos" products={products} />
 
-      <div className="mx-auto max-w-[1440px] px-5 lg:px-11">
+      <div className="mx-auto max-w-[1440px] px-5 lg:hidden lg:px-11">
         <CategorySelector categories={categories} />
       </div>
 
-      <HeroBanner
-        slides={[{ id: 2, image: "/banner-02.png", alt: "Seja autêntico" }]}
-      />
+      <div className="lg:hidden">
+        <HeroBanner
+          slides={[{ id: 2, image: "/banner-02.png", alt: "Seja autêntico" }]}
+        />
+      </div>
 
       <ProductList title="Novos produtos" products={newlyCreatedProducts} />
     </div>

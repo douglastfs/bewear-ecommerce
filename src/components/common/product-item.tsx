@@ -22,20 +22,22 @@ const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
         alt={product.name}
         width={0}
         height={0}
-        sizes="100vw"
+        sizes="(max-width: 1024px) 50vw, 25vw"
         className="h-auto w-full rounded-3xl"
       />
       <div
         className={cn(
-          "flex max-w-[200px] flex-col gap-1",
+          "flex max-w-[200px] flex-col gap-1 lg:max-w-none",
           textContainerClassName
         )}
       >
-        <p className="truncade text-sm font-medium">{product.name}</p>
-        <p className="text-muted-foreground truncate text-xs font-medium">
+        <p className="truncate text-sm font-medium lg:text-base">
+          {product.name}
+        </p>
+        <p className="text-muted-foreground truncate text-xs font-medium lg:text-sm">
           {product.description}
         </p>
-        <p className="truncate text-sm font-semibold">
+        <p className="truncate text-sm font-semibold lg:text-base">
           {formatCentsToBRL(firstVariant.priceInCents)}
         </p>
       </div>
