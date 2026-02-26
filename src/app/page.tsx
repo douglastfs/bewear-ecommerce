@@ -8,21 +8,6 @@ import {
   getProductsWithVariants,
 } from "@/data-access/product";
 
-const heroBannerSlides = [
-  {
-    id: 1,
-    image: "/banner-01.png",
-    alt: "Leve uma vida com estilo",
-    cta: { label: "Ver coleção", href: "/category/jaquetas-moletons" },
-  },
-  {
-    id: 2,
-    image: "/banner-02.png",
-    alt: "Seja autêntico",
-    cta: { label: "Ver coleção", href: "/category/camisetas" },
-  },
-];
-
 const Home = async () => {
   const [products, categories, newlyCreatedProducts] = await Promise.all([
     getProductsWithVariants(),
@@ -32,7 +17,11 @@ const Home = async () => {
 
   return (
     <div className="space-y-6">
-      <HeroBanner slides={heroBannerSlides} autoplay={false} />
+      <HeroBanner
+        slides={[
+          { id: 1, image: "/banner-01.png", alt: "Leve uma vida com estilo" },
+        ]}
+      />
 
       <PartnersBrands />
 
@@ -41,6 +30,10 @@ const Home = async () => {
       <div className="px-5">
         <CategorySelector categories={categories} />
       </div>
+
+      <HeroBanner
+        slides={[{ id: 2, image: "/banner-02.png", alt: "Seja autêntico" }]}
+      />
 
       <ProductList title="Novos produtos" products={newlyCreatedProducts} />
     </div>
