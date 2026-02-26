@@ -1,6 +1,4 @@
 import CategorySelector from "@/components/common/category-selector";
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import HeroBanner from "@/components/common/hero-banner";
 import PartnersBrands from "@/components/common/partners-brands";
 import ProductList from "@/components/common/product-list";
@@ -33,24 +31,19 @@ const Home = async () => {
   ]);
 
   return (
-    <>
-      <Header />
-      <div className="space-y-6">
-        <HeroBanner slides={heroBannerSlides} autoplay={false} />
+    <div className="space-y-6">
+      <HeroBanner slides={heroBannerSlides} autoplay={false} />
 
-        <PartnersBrands />
+      <PartnersBrands />
 
-        <ProductList title="Mais vendidos" products={products} />
+      <ProductList title="Mais vendidos" products={products} />
 
-        <div className="px-5">
-          <CategorySelector categories={categories} />
-        </div>
-
-        <ProductList title="Novos produtos" products={newlyCreatedProducts} />
-
-        <Footer />
+      <div className="px-5">
+        <CategorySelector categories={categories} />
       </div>
-    </>
+
+      <ProductList title="Novos produtos" products={newlyCreatedProducts} />
+    </div>
   );
 };
 

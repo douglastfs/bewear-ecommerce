@@ -28,21 +28,24 @@ Antes de criar qualquer componente, verificar se já existe um que atenda:
 
 ### `src/components/common/` (componentes de negócio reutilizáveis)
 
-| Componente              | Tipo   | Descrição                                             |
-| ----------------------- | ------ | ----------------------------------------------------- |
-| `header.tsx`            | client | Header com logo, carrinho e menu lateral (Sheet)      |
-| `footer.tsx`            | server | Footer simples com copyright                          |
-| `hero-banner.tsx`       | client | Carousel de banners com autoplay, setas e indicadores |
-| `product-item.tsx`      | server | Card de produto (imagem, nome, descrição, preço)      |
-| `product-list.tsx`      | client | Lista horizontal scrollável de produtos               |
-| `category-selector.tsx` | server | Grid 2 colunas de botões de categoria                 |
-| `cart.tsx`              | client | Drawer lateral do carrinho (Sheet)                    |
-| `cart-item.tsx`         | client | Item do carrinho com controles de quantidade          |
-| `partners-brands.tsx`   | server | Carousel infinito de logos de parceiros               |
+| Componente              | Tipo   | Descrição                                                              |
+| ----------------------- | ------ | ---------------------------------------------------------------------- |
+| `header.tsx`            | client | Header com logo, carrinho e menu lateral (Sheet)                       |
+| `footer.tsx`            | server | Footer simples com copyright                                           |
+| `hero-banner.tsx`       | client | Carousel de banners com autoplay, setas e indicadores                  |
+| `product-item.tsx`      | server | Card de produto (imagem, nome, descrição, preço)                       |
+| `product-list.tsx`      | client | Lista horizontal scrollável de produtos                                |
+| `category-selector.tsx` | server | Grid 2 colunas de botões de categoria                                  |
+| `cart.tsx`              | client | Drawer lateral do carrinho (Sheet)                                     |
+| `cart-item.tsx`         | client | Item do carrinho com controles de quantidade                           |
+| `cart-summary.tsx`      | server | Resumo do pedido (preços + lista de itens) com link "Editar"           |
+| `checkout-steps.tsx`    | client | Stepper visual de 3 etapas do checkout (Dice UI)                       |
+| `address-card.tsx`      | server | Card de identificação/endereço com link "Alterar" e suporte a children |
+| `partners-brands.tsx`   | server | Carousel infinito de logos de parceiros                                |
 
 ### `src/components/ui/` (shadcn/ui)
 
-Avatar, Button, Card, Carousel, Collapsible, Dialog, Form, Input, Label, RadioGroup, ScrollArea, Separator, Sheet, Sonner (Toast), Tabs.
+Avatar, Button, Card, Carousel, Collapsible, Dialog, Form, Input, Label, RadioGroup, ScrollArea, Separator, Sheet, Sonner (Toast), Stepper (Dice UI), Tabs.
 
 > **Regra**: Sempre usar componentes shadcn/ui antes de criar customizados. Consultar o MCP do shadcn para componentes disponíveis que ainda não estão instalados.
 
@@ -128,6 +131,18 @@ A lista de produtos (`product-list.tsx`) é scroll horizontal no mobile. Para de
 
 - Considerar grid de 4 colunas (`lg:grid lg:grid-cols-4`)
 - Manter scroll horizontal como fallback ou opção de carousel
+
+### Fluxo de Checkout
+
+O checkout é composto por 3 páginas que reutilizam os mesmos componentes:
+
+| Página                | Step | Componentes usados                                                   |
+| --------------------- | ---- | -------------------------------------------------------------------- |
+| `cart/identification` | 1    | `CheckoutSteps(1)` + `Addresses` + `CartSummary`                     |
+| `cart/confirmation`   | 2    | `CheckoutSteps(2)` + `AddressCard` + `CartSummary`                   |
+| `checkout/success`    | 3    | `CheckoutSteps(3)` + `AddressCard` + `CartSummary` + `SuccessDialog` |
+
+**Padrão de composição**: `AddressCard` aceita `children` para conteúdo extra (ex: `FinishOrderButton` na confirmation). Componentes específicos de página ficam em `src/app/{page}/components/`.
 
 ---
 

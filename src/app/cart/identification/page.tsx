@@ -3,8 +3,6 @@ import { redirect } from "next/navigation";
 
 import CartSummary from "@/components/common/cart-summary";
 import CheckoutSteps from "@/components/common/checkout-steps";
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import { getCartByUserId } from "@/data-access/cart";
 import { getShippingAddressesByUserId } from "@/data-access/shipping-address";
 import { auth } from "@/lib/auth";
@@ -29,28 +27,24 @@ const IdentificationPage = async () => {
   }, 0);
 
   return (
-    <>
-      <Header />
-      <div className="mb-9 space-y-4 px-5">
-        <CheckoutSteps currentStep={1} />
-        <Addresses
-          shippingAddresses={shippingAddresses}
-          selectedShippingAddressId={cart.shippingAddressId}
-        />
-        <CartSummary
-          subTotalInCents={CartTotalPriceInCents}
-          totalInCents={CartTotalPriceInCents}
-          products={cart.items.map(item => ({
-            name: item.productVariant.product.name,
-            variantName: item.productVariant.name,
-            quantity: item.quantity,
-            priceInCents: item.productVariant.priceInCents * item.quantity,
-            imageUrl: item.productVariant.imageUrl,
-          }))}
-        />
-      </div>
-      <Footer />
-    </>
+    <div className="mb-9 space-y-4 px-5">
+      <CheckoutSteps currentStep={1} />
+      <Addresses
+        shippingAddresses={shippingAddresses}
+        selectedShippingAddressId={cart.shippingAddressId}
+      />
+      <CartSummary
+        subTotalInCents={CartTotalPriceInCents}
+        totalInCents={CartTotalPriceInCents}
+        products={cart.items.map(item => ({
+          name: item.productVariant.product.name,
+          variantName: item.productVariant.name,
+          quantity: item.quantity,
+          priceInCents: item.productVariant.priceInCents * item.quantity,
+          imageUrl: item.productVariant.imageUrl,
+        }))}
+      />
+    </div>
   );
 };
 

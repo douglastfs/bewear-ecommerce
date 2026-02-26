@@ -300,6 +300,6 @@ Este projeto foi desenvolvido durante o **Bootcamp da [FullStackClub](https://fu
 
 <div align="center">
 
-**Desenvolvido por [Douglas Ferreira](https://github.com/douglastfs)**
+**Desenvolvido por [Douglas Tenório](https://github.com/douglastfs)**
 
 </div>

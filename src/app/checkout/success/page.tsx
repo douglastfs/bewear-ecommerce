@@ -4,8 +4,6 @@ import { redirect } from "next/navigation";
 import AddressCard from "@/components/common/address-card";
 import CartSummary from "@/components/common/cart-summary";
 import CheckoutSteps from "@/components/common/checkout-steps";
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import { getOrderById, getOrderItemsByOrderId } from "@/data-access/order";
 import { auth } from "@/lib/auth";
 
@@ -44,7 +42,6 @@ const CheckoutSuccessPage = async ({
 
   return (
     <>
-      <Header />
       <div className="mb-8 space-y-4 px-5">
         <CheckoutSteps currentStep={3} />
 
@@ -63,7 +60,6 @@ const CheckoutSuccessPage = async ({
           }))}
         />
       </div>
-      <Footer />
 
       {/* Dialog de sucesso por cima de tudo */}
       <SuccessDialog />

@@ -42,5 +42,4 @@ yarn-error.log*
 next-env.d.ts
 
 # docs
-roadmap-producao.md
-roadmap-producao.jpeg
+/docs/study

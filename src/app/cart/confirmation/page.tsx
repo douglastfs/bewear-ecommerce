@@ -4,8 +4,6 @@ import { redirect } from "next/navigation";
 import AddressCard from "@/components/common/address-card";
 import CartSummary from "@/components/common/cart-summary";
 import CheckoutSteps from "@/components/common/checkout-steps";
-import Footer from "@/components/common/footer";
-import Header from "@/components/common/header";
 import { getCartByUserId } from "@/data-access/cart";
 import { auth } from "@/lib/auth";
 
@@ -33,27 +31,23 @@ const ConfirmationPage = async () => {
   }, 0);
 
   return (
-    <>
-      <Header />
-      <div className="mb-8 space-y-4 px-5">
-        <CheckoutSteps currentStep={2} />
-        <AddressCard address={formatAddress(cart.shippingAddress)}>
-          <FinishOrderButton />
-        </AddressCard>
-        <CartSummary
-          subTotalInCents={CartTotalPriceInCents}
-          totalInCents={CartTotalPriceInCents}
-          products={cart.items.map(item => ({
-            name: item.productVariant.product.name,
-            variantName: item.productVariant.name,
-            quantity: item.quantity,
-            priceInCents: item.productVariant.priceInCents * item.quantity,
-            imageUrl: item.productVariant.imageUrl,
-          }))}
-        />
-      </div>
-      <Footer />
-    </>
+    <div className="mb-8 space-y-4 px-5">
+      <CheckoutSteps currentStep={2} />
+      <AddressCard address={formatAddress(cart.shippingAddress)}>
+        <FinishOrderButton />
+      </AddressCard>
+      <CartSummary
+        subTotalInCents={CartTotalPriceInCents}
+        totalInCents={CartTotalPriceInCents}
+        products={cart.items.map(item => ({
+          name: item.productVariant.product.name,
+          variantName: item.productVariant.name,
+          quantity: item.quantity,
+          priceInCents: item.productVariant.priceInCents * item.quantity,
+          imageUrl: item.productVariant.imageUrl,
+        }))}
+      />
+    </div>
   );
 };
 

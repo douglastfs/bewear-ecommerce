@@ -2,6 +2,8 @@
 
 import { ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { formatCentsToBRL } from "@/helpers/money";
 import { useCart } from "@/hooks/queries/use-cart";
@@ -20,10 +22,17 @@ import CartItem from "./cart-item";
 
 const Cart = () => {
   const { data: cart } = useCart();
+  const pathname = usePathname();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Fecha o Sheet do carrinho automaticamente ao navegar
+  useEffect(() => {
+    requestAnimationFrame(() => setIsCartOpen(false));
+  }, [pathname]);
 
   return (
     <div className="">
-      <Sheet>
+      <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" className="text-gray-600">
             <ShoppingBagIcon />

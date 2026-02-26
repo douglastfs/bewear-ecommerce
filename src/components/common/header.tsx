@@ -3,6 +3,8 @@
 import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
 
@@ -19,6 +21,14 @@ import Cart from "./cart";
 
 const Header = () => {
   const { data: session } = authClient.useSession();
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Fecha o Sheet do menu automaticamente ao navegar
+  useEffect(() => {
+    requestAnimationFrame(() => setIsMenuOpen(false));
+  }, [pathname]);
+
   return (
     <header className="flex items-center justify-between p-5">
       <Link href="/">
@@ -26,7 +36,7 @@ const Header = () => {
       </Link>
       <div className="flex items-center gap-3">
         <Cart />
-        <Sheet>
+        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon">
               <MenuIcon />
