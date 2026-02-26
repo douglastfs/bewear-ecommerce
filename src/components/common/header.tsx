@@ -21,12 +21,13 @@ import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "../ui/navigation-menu";
 import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import {
@@ -176,46 +177,64 @@ const Header = () => {
           {/* Esquerda — Saudação do usuário com dropdown */}
           <div className="flex flex-1 items-center gap-3">
             {session?.user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex cursor-pointer items-center gap-3 rounded-full transition-opacity hover:opacity-80">
-                    <Avatar className="size-8">
-                      <AvatarImage
-                        src={session.user.image as string | undefined}
-                      />
-                      <AvatarFallback className="text-xs">
-                        {session.user.name?.split(" ")?.[0]?.[0]}
-                        {session.user.name?.split(" ")?.[1]?.[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="text-base font-semibold">
-                      Olá, {session.user.name?.split(" ")[0]}!
-                    </span>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48">
-                  <DropdownMenuItem asChild>
-                    <Link href="/my-orders" className="cursor-pointer gap-2">
-                      <TruckIcon size={16} />
-                      Meus Pedidos
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/cart" className="cursor-pointer gap-2">
-                      <ShoppingBagIcon size={16} />
-                      Sacola
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => authClient.signOut()}
-                    className="text-muted-foreground cursor-pointer gap-2"
-                  >
-                    <LogOutIcon size={16} />
-                    Sair da conta
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="flex cursor-pointer items-center gap-3 rounded-full">
+                      <Avatar className="size-8">
+                        <AvatarImage
+                          src={session.user.image as string | undefined}
+                        />
+                        <AvatarFallback className="text-xs">
+                          {session.user.name?.split(" ")?.[0]?.[0]}
+                          {session.user.name?.split(" ")?.[1]?.[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-base font-semibold">
+                        Olá, {session.user.name?.split(" ")[0]}!
+                      </span>
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="flex w-48 flex-col gap-1">
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href="/my-orders"
+                              className="w-full cursor-pointer flex-row items-center gap-3"
+                            >
+                              <TruckIcon size={16} />
+                              Meus Pedidos
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href="/cart"
+                              className="w-full cursor-pointer flex-row items-center gap-3"
+                            >
+                              <ShoppingBagIcon size={16} />
+                              Sacola
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        <Separator className="my-1" />
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <button
+                              onClick={() => authClient.signOut()}
+                              className="text-muted-foreground w-full cursor-pointer flex-row items-center gap-3"
+                            >
+                              <LogOutIcon size={16} />
+                              Sair da conta
+                            </button>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             ) : (
               <Link
                 href="/authentication"
