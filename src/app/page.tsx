@@ -1,4 +1,6 @@
 import CategorySelector from "@/components/common/category-selector";
+import type { ShowcaseItem } from "@/components/common/category-showcase";
+import CategoryShowcase from "@/components/common/category-showcase";
 import HeroBanner from "@/components/common/hero-banner";
 import PartnersBrands from "@/components/common/partners-brands";
 import ProductList from "@/components/common/product-list";
@@ -8,12 +10,38 @@ import {
   getProductsWithVariants,
 } from "@/data-access/product";
 
+// Configuração estática do showcase — preparado para virar dinâmico via admin
+const SHOWCASE_CONFIG = [
+  {
+    imageUrl: "/showcase/acessorios.png",
+    gradient: "from-[#b9bbca] to-[#eeeff6]",
+  },
+  {
+    imageUrl: "/showcase/bermudas.png",
+    gradient: "from-[#b0b1f0] to-[#eaeffe]",
+  },
+  {
+    imageUrl: "/showcase/calcas.png",
+    gradient: "from-[#a0cbe9] to-[#eaeffe]",
+  },
+];
+
 const Home = async () => {
   const [products, categories, newlyCreatedProducts] = await Promise.all([
     getProductsWithVariants(),
     getCategories(),
     getNewlyCreatedProducts(),
   ]);
+
+  // Monta os itens do showcase a partir das 3 primeiras categorias
+  const showcaseItems: ShowcaseItem[] = categories
+    .slice(0, 3)
+    .map((category, index) => ({
+      title: category.name,
+      imageUrl: SHOWCASE_CONFIG[index].imageUrl,
+      href: `/category/${category.slug}`,
+      gradient: SHOWCASE_CONFIG[index].gradient,
+    }));
 
   return (
     <div className="space-y-6 lg:space-y-10">
@@ -41,6 +69,8 @@ const Home = async () => {
           slides={[{ id: 2, image: "/banner-02.png", alt: "Seja autêntico" }]}
         />
       </div>
+
+      <CategoryShowcase items={showcaseItems} />
 
       <ProductList title="Novos produtos" products={newlyCreatedProducts} />
     </div>
