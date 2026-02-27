@@ -5,15 +5,18 @@ import { Loader2 } from "lucide-react";
 
 import { addProductToCart } from "@/actions/add-cart-product";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface AddToCartButtonProps {
   productVariantId: string;
   quantity: number;
+  className?: string;
 }
 
 const AddToCartButton = ({
   productVariantId,
   quantity,
+  className,
 }: AddToCartButtonProps) => {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
@@ -32,7 +35,7 @@ const AddToCartButton = ({
   return (
     <Button
       variant="outline"
-      className="rounded-full"
+      className={cn("rounded-full", className)}
       size="lg"
       disabled={isPending}
       onClick={() => mutate()}

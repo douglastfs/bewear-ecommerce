@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import ProductList from "@/components/common/product-list";
@@ -9,6 +8,7 @@ import {
 import { formatCentsToBRL } from "@/helpers/money";
 
 import ProductActions from "./components/product-actions";
+import ProductGallery from "./components/product-gallery";
 import VariantSelector from "./components/variant-selector";
 
 interface ProductPageProps {
@@ -29,47 +29,57 @@ const ProductVariantPage = async ({ params }: ProductPageProps) => {
 
   return (
     <>
-      <div className="flex flex-col space-y-6 px-5">
-        {/* imagem */}
-        <Image
-          src={productVariant.imageUrl}
-          alt={productVariant.product.name}
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="h-auto w-full rounded-3xl"
-        />
+      {/* Container centralizado com max-width — evita esticar em telas ultra-largas */}
+      <div className="mx-auto max-w-[1440px] px-5 lg:px-11">
+        {/* Mobile: empilhado | Desktop: grid 3 colunas (thumbnails + imagem + info) */}
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[3fr_2fr] lg:items-start lg:gap-8">
+          {/* ProductGallery renderiza as 2 primeiras colunas do grid (thumbnails + imagem) */}
+          <ProductGallery
+            mainImageUrl={productVariant.imageUrl}
+            productName={productVariant.product.name}
+            galleryImages={productVariant.images}
+          />
 
-        {/* variantes */}
-        <VariantSelector
-          selectedVariantSlug={productVariant.slug}
-          variants={productVariant.product.variants}
-        />
+          {/* Coluna direita: Informações do produto */}
+          <div className="flex flex-col gap-6 lg:gap-7 lg:py-4">
+            {/* Nome e subtítulo */}
+            <div className="flex flex-col gap-1">
+              <h1 className="text-lg font-semibold lg:text-[32px] lg:leading-tight">
+                {productVariant.product.name}
+              </h1>
+              <p className="text-muted-foreground text-sm lg:text-base">
+                {productVariant.name}
+              </p>
+            </div>
 
-        {/* nome e preço */}
-        <div className="flex flex-col">
-          <h2 className="text-lg font-semibold">
-            {productVariant.product.name}
-          </h2>
-          <h3 className="text-muted-foreground text-sm">
-            {productVariant.name}
-          </h3>
-          <h3 className="text-lg font-semibold">
-            {formatCentsToBRL(productVariant.priceInCents)}
-          </h3>
-        </div>
+            {/* Preço */}
+            <p className="text-lg font-semibold lg:text-xl">
+              {formatCentsToBRL(productVariant.priceInCents)}
+            </p>
 
-        <ProductActions productVariantId={productVariant.id} />
+            {/* Seletor de variantes */}
+            <VariantSelector
+              selectedVariantSlug={productVariant.slug}
+              variants={productVariant.product.variants}
+            />
 
-        {/* descrição */}
-        <div className="">
-          <p>{productVariant.product.description}</p>
+            {/* Quantidade e botões */}
+            <ProductActions productVariantId={productVariant.id} />
+
+            {/* Descrição */}
+            <p className="text-base leading-relaxed">
+              {productVariant.product.description}
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* produtos similares */}
-      <div className="my-6">
-        <ProductList products={likelyProducts} title="Produtos similares" />
+      {/* Produtos similares */}
+      <div className="my-6 lg:my-16">
+        <ProductList
+          products={likelyProducts}
+          title="Você também pode gostar"
+        />
       </div>
     </>
   );

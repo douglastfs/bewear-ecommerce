@@ -50,7 +50,7 @@ const Header = () => {
   }, [pathname]);
 
   return (
-    <header>
+    <header className="border-b">
       {/* ===== MOBILE HEADER ===== */}
       <div className="mx-auto flex max-w-[1440px] items-center justify-between p-5 lg:hidden">
         <Link href="/">
@@ -264,7 +264,7 @@ const Header = () => {
         </div>
 
         {/* Linha inferior — Navegação por categorias */}
-        <nav className="flex items-center justify-center gap-16 px-11 pb-4">
+        <nav className="flex items-center justify-center gap-16 px-11 py-4">
           {categories?.map(category => (
             <Link
               key={category.id}
