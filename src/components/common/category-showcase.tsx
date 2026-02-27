@@ -42,7 +42,6 @@ const ShowcaseCard = ({
       />
     </div>
 
-    {/* Botão "Comprar" */}
     <Button
       variant="ghost"
       className="absolute right-6 bottom-6 z-10 rounded-full bg-white/80 px-5 py-4 text-lg font-semibold backdrop-blur-sm transition-colors hover:bg-white"

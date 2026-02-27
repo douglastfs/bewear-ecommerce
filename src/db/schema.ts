@@ -150,6 +150,26 @@ export const productVariantTable = pgTable("product_variant", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const productVariantImageTable = pgTable("product_variant_image", {
+  id: uuid().primaryKey().defaultRandom(),
+  productVariantId: uuid("product_variant_id")
+    .notNull()
+    .references(() => productVariantTable.id, { onDelete: "cascade" }),
+  imageUrl: text("image_url").notNull(),
+  displayOrder: integer("display_order").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const productVariantImageRelations = relations(
+  productVariantImageTable,
+  ({ one }) => ({
+    productVariant: one(productVariantTable, {
+      fields: [productVariantImageTable.productVariantId],
+      references: [productVariantTable.id],
+    }),
+  })
+);
+
 export const productVariantRelations = relations(
   productVariantTable,
   ({ one, many }) => ({
@@ -157,6 +177,7 @@ export const productVariantRelations = relations(
       fields: [productVariantTable.productId],
       references: [productTable.id],
     }),
+    images: many(productVariantImageTable),
     cartItems: many(cartItemTable),
     orderItems: many(orderItemTable),
   })

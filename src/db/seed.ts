@@ -1,7 +1,16 @@
 import crypto from "crypto";
 
 import { db } from ".";
-import { categoryTable, productTable, productVariantTable } from "./schema";
+import {
+  cartItemTable,
+  cartTable,
+  categoryTable,
+  orderItemTable,
+  orderTable,
+  productTable,
+  productVariantImageTable,
+  productVariantTable,
+} from "./schema";
 
 const productImages = {
   Mochila: {
@@ -542,6 +551,12 @@ async function main() {
   try {
     // Limpar dados existentes
     console.log("🧹 Limpando dados existentes...");
+    // Ordem respeita FKs: order_item/cart_item → order/cart → variant_image → variant → product → category
+    await db.delete(orderItemTable);
+    await db.delete(orderTable);
+    await db.delete(cartItemTable);
+    await db.delete(cartTable);
+    await db.delete(productVariantImageTable);
     await db.delete(productVariantTable);
     await db.delete(productTable);
     await db.delete(categoryTable);
@@ -588,10 +603,19 @@ async function main() {
         categoryId: categoryId,
       });
 
-      // Inserir variantes do produto
+      // Coletar todas as imagens do produto (de todas as variantes)
+      const productKey = productData.name as keyof typeof productImages;
+      const allProductImageUrls: string[] = [];
+      for (const v of productData.variants) {
+        const urls = (productImages[productKey]?.[
+          v.color as keyof (typeof productImages)[typeof productKey]
+        ] || []) as string[];
+        allProductImageUrls.push(...urls);
+      }
+
+      // Inserir variantes do produto e suas imagens de galeria
       for (const variantData of productData.variants) {
         const variantId = crypto.randomUUID();
-        const productKey = productData.name as keyof typeof productImages;
         const variantImages =
           productImages[productKey]?.[
             variantData.color as keyof (typeof productImages)[typeof productKey]
@@ -608,6 +632,25 @@ async function main() {
           priceInCents: variantData.price,
           slug: generateSlug(`${productData.name}-${variantData.color}`),
         });
+
+        // Inserir imagens de galeria: imagem da variante + imagens das outras variantes
+        const galleryImages = [
+          variantImages[0], // A própria imagem da variante primeiro
+          ...allProductImageUrls.filter(url => url !== variantImages[0]),
+        ].filter(Boolean);
+
+        for (let i = 0; i < galleryImages.length; i++) {
+          await db.insert(productVariantImageTable).values({
+            id: crypto.randomUUID(),
+            productVariantId: variantId,
+            imageUrl: galleryImages[i],
+            displayOrder: i,
+          });
+        }
+
+        console.log(
+          `    🖼️ ${galleryImages.length} imagens de galeria adicionadas`
+        );
       }
     }
 

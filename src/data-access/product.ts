@@ -3,11 +3,16 @@ import "server-only";
 import { desc, eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { productTable, productVariantTable } from "@/db/schema";
+import {
+  productTable,
+  productVariantImageTable,
+  productVariantTable,
+} from "@/db/schema";
 
 // Tipos inferidos do Drizzle — exportados para uso nas pages e componentes
 export type Product = typeof productTable.$inferSelect;
 export type ProductVariant = typeof productVariantTable.$inferSelect;
+export type ProductVariantImage = typeof productVariantImageTable.$inferSelect;
 export type ProductWithVariants = Product & {
   variants: ProductVariant[];
 };
@@ -37,8 +42,9 @@ export const getNewlyCreatedProducts = async (): Promise<
   return newlyCreatedProducts;
 };
 
-// Tipo para a page de detalhe: variante com produto e suas variantes
+// Tipo para a page de detalhe: variante com produto, variantes e imagens de galeria
 export type ProductVariantWithProduct = ProductVariant & {
+  images: ProductVariantImage[];
   product: Product & {
     variants: ProductVariant[];
   };
@@ -50,6 +56,9 @@ export const getProductVariantBySlug = async (
   return db.query.productVariantTable.findFirst({
     where: eq(productVariantTable.slug, slug),
     with: {
+      images: {
+        orderBy: (images, { asc }) => [asc(images.displayOrder)],
+      },
       product: {
         with: {
           variants: true,
