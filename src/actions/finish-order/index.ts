@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
 import { getCartWithItemsAndAddress } from "@/data-access/cart";
@@ -53,10 +54,12 @@ export const finishOrder = async () => {
       productVariantId: item.productVariantId,
       quantity: item.quantity,
       priceInCents: item.productVariant.priceInCents,
-    })),
-    session.user.id,
-    cart.id
+    }))
   );
+
+  // Invalida cache de rota após persistir na base
+  revalidatePath("/");
+  revalidatePath("/cart");
 
   return { orderId };
 };

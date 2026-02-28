@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import { updateOrderStatus } from "@/data-access/order";
+import { deleteCartByUserId } from "@/data-access/cart";
+import { getOrderById, updateOrderStatus } from "@/data-access/order";
 
 export const POST = async (request: Request) => {
   // Verificar se as variáveis de ambiente estão definidas
@@ -37,6 +38,12 @@ export const POST = async (request: Request) => {
 
     // Atualizar o status do pedido via DAL
     await updateOrderStatus(orderId, "paid");
+
+    // Limpar o carrinho do usuário que fez o pedido
+    const order = await getOrderById(orderId);
+    if (order) {
+      await deleteCartByUserId(order.userId);
+    }
   }
 
   return NextResponse.json({ received: true });

@@ -157,7 +157,14 @@ export const deleteCartItem = async (cartItemId: string): Promise<void> => {
 };
 
 export const deleteCartByUserId = async (userId: string): Promise<void> => {
-  await db.delete(cartTable).where(eq(cartTable.userId, userId));
+  const cart = await db.query.cartTable.findFirst({
+    where: eq(cartTable.userId, userId),
+  });
+
+  if (cart) {
+    await db.delete(cartItemTable).where(eq(cartItemTable.cartId, cart.id));
+    await db.delete(cartTable).where(eq(cartTable.id, cart.id));
+  }
 };
 
 export const deleteCartItemsByCartId = async (

@@ -1,8 +1,10 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +18,14 @@ import {
 
 const SuccessDialog = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    // Invalida o cache local do carrinho do React Query pra apagar a sheet
+    queryClient.invalidateQueries({ queryKey: ["cart"] });
+    // Limpa tbm o cache do Router NextJS pro RSC refetch
+    router.refresh();
+  }, [queryClient, router]);
 
   return (
     <Dialog open={true} onOpenChange={() => router.push("/")}>

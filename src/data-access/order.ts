@@ -3,12 +3,7 @@ import "server-only";
 import { desc, eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import {
-  cartItemTable,
-  cartTable,
-  orderItemTable,
-  orderTable,
-} from "@/db/schema";
+import { orderItemTable, orderTable } from "@/db/schema";
 
 import type { Product, ProductVariant } from "./product";
 
@@ -84,13 +79,11 @@ export const updateOrderStatus = async (
 
 /**
  * Cria um pedido com seus itens em uma transação atômica.
- * Também limpa o carrinho e seus itens.
+ * O carrinho será mantido intacto até ser limpo pelo Webhook.
  */
 export const createOrderWithItems = async (
   orderData: typeof orderTable.$inferInsert,
-  items: Omit<NewOrderItem, "orderId">[],
-  cartUserId: string,
-  cartId: string
+  items: Omit<NewOrderItem, "orderId">[]
 ): Promise<string> => {
   let orderId: string | undefined;
 
@@ -109,8 +102,6 @@ export const createOrderWithItems = async (
     }));
 
     await tx.insert(orderItemTable).values(orderItemsPayload);
-    await tx.delete(cartTable).where(eq(cartTable.userId, cartUserId));
-    await tx.delete(cartItemTable).where(eq(cartItemTable.cartId, cartId));
   });
 
   if (!orderId) {

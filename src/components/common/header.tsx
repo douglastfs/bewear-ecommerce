@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useCategories } from "@/hooks/queries/use-categories";
@@ -43,6 +43,7 @@ const Header = () => {
   const { data: session } = authClient.useSession();
   const { data: categories } = useCategories();
   const pathname = usePathname();
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -154,7 +155,13 @@ const Header = () => {
                       <>
                         <Separator />
                         <button
-                          onClick={() => authClient.signOut()}
+                          onClick={() =>
+                            authClient.signOut({
+                              fetchOptions: {
+                                onSuccess: () => router.push("/"),
+                              },
+                            })
+                          }
                           className="text-muted-foreground hover:bg-accent flex w-full items-center gap-3 rounded-full px-4 py-3 text-sm font-medium transition-colors"
                         >
                           <LogOutIcon size={16} />
@@ -222,7 +229,13 @@ const Header = () => {
                         <li>
                           <NavigationMenuLink asChild>
                             <button
-                              onClick={() => authClient.signOut()}
+                              onClick={() =>
+                                authClient.signOut({
+                                  fetchOptions: {
+                                    onSuccess: () => router.push("/"),
+                                  },
+                                })
+                              }
                               className="text-muted-foreground w-full cursor-pointer flex-row items-center gap-3"
                             >
                               <LogOutIcon size={16} />
