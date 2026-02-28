@@ -11,16 +11,16 @@ export const metadata = {
 
 const Authentication = async () => {
   return (
-    <div className="flex w-full flex-col gap-6 p-5">
-      <Tabs defaultValue="sign-in">
-        <TabsList>
+    <div className="mx-auto flex w-full max-w-md flex-col gap-6 p-5 sm:mt-10 sm:mb-20">
+      <Tabs defaultValue="sign-in" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="sign-in">Entrar</TabsTrigger>
           <TabsTrigger value="sign-up">Criar conta</TabsTrigger>
         </TabsList>
-        <TabsContent value="sign-in">
+        <TabsContent value="sign-in" className="mt-6">
           <SignInForm />
         </TabsContent>
-        <TabsContent value="sign-up">
+        <TabsContent value="sign-up" className="mt-6">
           <SignUpForm />
         </TabsContent>
       </Tabs>

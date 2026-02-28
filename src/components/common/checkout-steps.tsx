@@ -34,8 +34,8 @@ const CheckoutSteps = ({ currentStep }: CheckoutStepsProps) => {
             completed={Number(step.value) < currentStep}
             className="ml-2 flex items-center gap-2"
           >
-            <StepperIndicator className="size-7 text-xs" />
-            <StepperTitle className="text-sm font-medium">
+            <StepperIndicator className="size-6 text-xs sm:size-7" />
+            <StepperTitle className="text-xs font-medium sm:text-sm">
               {step.label}
             </StepperTitle>
             <StepperSeparator />

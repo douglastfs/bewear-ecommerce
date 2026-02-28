@@ -79,9 +79,9 @@ const SignInForm = () => {
 
   return (
     <>
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Entrar</CardTitle>
+      <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-sm">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Entrar</CardTitle>
           <CardDescription>Faça login para continuar.</CardDescription>
         </CardHeader>
 
@@ -95,7 +95,11 @@ const SignInForm = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite seu email" {...field} />
+                      <Input
+                        placeholder="Digite seu email"
+                        className="h-12 px-4"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -111,6 +115,7 @@ const SignInForm = () => {
                       <Input
                         placeholder="Digite sua senha"
                         type="password"
+                        className="h-12 px-4"
                         {...field}
                       />
                     </FormControl>
@@ -119,13 +124,16 @@ const SignInForm = () => {
                 )}
               />
             </CardContent>
-            <CardFooter className="flex flex-col gap-2">
-              <Button type="submit" className="w-full">
+            <CardFooter className="flex flex-col gap-3 pb-8">
+              <Button
+                type="submit"
+                className="h-12 w-full rounded-full font-semibold"
+              >
                 Entrar
               </Button>
               <Button
                 variant="outline"
-                className="w-full"
+                className="h-12 w-full rounded-full font-semibold"
                 onClick={handleSignInWithGoogle}
                 type="button"
               >

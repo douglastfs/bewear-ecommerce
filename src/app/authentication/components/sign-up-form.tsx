@@ -85,9 +85,9 @@ const SignUpForm = () => {
 
   return (
     <>
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Criar conta</CardTitle>
+      <Card className="w-full border-none shadow-none sm:border-solid sm:shadow-sm">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Criar conta</CardTitle>
           <CardDescription>Crie uma conta para continuar.</CardDescription>
         </CardHeader>
 
@@ -101,7 +101,11 @@ const SignUpForm = () => {
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite seu nome" {...field} />
+                      <Input
+                        placeholder="Digite seu nome"
+                        className="h-12 px-4"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,7 +118,11 @@ const SignUpForm = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Digite seu email" {...field} />
+                      <Input
+                        placeholder="Digite seu email"
+                        className="h-12 px-4"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -130,6 +138,7 @@ const SignUpForm = () => {
                       <Input
                         placeholder="Digite sua senha"
                         type="password"
+                        className="h-12 px-4"
                         {...field}
                       />
                     </FormControl>
@@ -147,6 +156,7 @@ const SignUpForm = () => {
                       <Input
                         placeholder="Digite sua senha novamente"
                         type="password"
+                        className="h-12 px-4"
                         {...field}
                       />
                     </FormControl>
@@ -155,8 +165,11 @@ const SignUpForm = () => {
                 )}
               />
             </CardContent>
-            <CardFooter className="flex flex-col gap-2">
-              <Button type="submit" className="w-full">
+            <CardFooter className="flex flex-col gap-2 pb-8">
+              <Button
+                type="submit"
+                className="h-12 w-full rounded-full font-semibold"
+              >
                 Criar conta
               </Button>
             </CardFooter>
