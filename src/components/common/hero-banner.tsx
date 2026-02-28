@@ -77,6 +77,7 @@ const HeroBanner = ({
                 width={0}
                 height={0}
                 sizes="100vw"
+                priority={true}
                 className="h-auto w-full lg:hidden"
               />
               <Image
@@ -85,6 +86,7 @@ const HeroBanner = ({
                 width={0}
                 height={0}
                 sizes="100vw"
+                priority={true}
                 className="hidden h-auto w-full lg:block"
               />
             </>
@@ -95,6 +97,7 @@ const HeroBanner = ({
               width={0}
               height={0}
               sizes="100vw"
+              priority={true}
               className="h-auto w-full"
             />
           )}
@@ -133,6 +136,7 @@ const HeroBanner = ({
                       width={0}
                       height={0}
                       sizes="100vw"
+                      priority={true}
                       className="h-auto w-full lg:hidden"
                     />
                     <Image
@@ -141,6 +145,7 @@ const HeroBanner = ({
                       width={0}
                       height={0}
                       sizes="100vw"
+                      priority={true}
                       className="hidden h-auto w-full lg:block"
                     />
                   </>
@@ -151,6 +156,7 @@ const HeroBanner = ({
                     width={0}
                     height={0}
                     sizes="100vw"
+                    priority={true}
                     className="h-auto w-full"
                   />
                 )}

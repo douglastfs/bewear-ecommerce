@@ -77,8 +77,12 @@ const ProductList = ({ title, products }: ProductListProps) => {
 
       {/* Mobile: scroll horizontal */}
       <div className="flex w-full gap-4 overflow-x-auto px-5 lg:hidden [&::-webkit-scrollbar]:hidden">
-        {products.map(product => (
-          <ProductItem key={product.id} product={product} />
+        {products.map((product, index) => (
+          <ProductItem
+            key={product.id}
+            product={product}
+            priority={index < 2}
+          />
         ))}
       </div>
 
@@ -90,12 +94,13 @@ const ProductList = ({ title, products }: ProductListProps) => {
           className="w-full px-11"
         >
           <CarouselContent>
-            {products.map(product => (
+            {products.map((product, index) => (
               <CarouselItem key={product.id} className="basis-1/4">
                 <ProductItem
                   key={product.id}
                   product={product}
                   textContainerClassName="max-w-none"
+                  priority={index < 4}
                 />
               </CarouselItem>
             ))}

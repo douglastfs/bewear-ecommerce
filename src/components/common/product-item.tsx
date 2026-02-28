@@ -8,9 +8,14 @@ import { cn } from "@/lib/utils";
 interface ProductItemProps {
   product: ProductWithVariants;
   textContainerClassName?: string;
+  priority?: boolean;
 }
 
-const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
+const ProductItem = ({
+  product,
+  textContainerClassName,
+  priority = false,
+}: ProductItemProps) => {
   const firstVariant = product.variants[0];
   return (
     <Link
@@ -23,6 +28,7 @@ const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
         width={0}
         height={0}
         sizes="(max-width: 1024px) 50vw, 25vw"
+        priority={priority}
         className="h-auto w-full rounded-3xl"
       />
       <div

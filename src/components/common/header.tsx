@@ -15,6 +15,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import type { Category } from "@/data-access/category";
 import { useCategories } from "@/hooks/queries/use-categories";
 import { authClient } from "@/lib/auth-client";
 
@@ -39,9 +40,15 @@ import {
 } from "../ui/sheet";
 import Cart from "./cart";
 
-const Header = () => {
+interface HeaderProps {
+  initialCategories?: Category[];
+}
+
+const Header = ({ initialCategories }: HeaderProps) => {
   const { data: session } = authClient.useSession();
-  const { data: categories } = useCategories();
+  const { data: categories } = useCategories({
+    initialData: initialCategories,
+  });
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -66,7 +73,14 @@ const Header = () => {
       {/* ===== MOBILE HEADER ===== */}
       <div className="mx-auto flex max-w-[1440px] items-center justify-between p-5 lg:hidden">
         <Link href="/">
-          <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
+          <Image
+            src="/logo.svg"
+            alt="BEWEAR"
+            width={100}
+            height={26.14}
+            priority={true}
+            fetchPriority="high"
+          />
         </Link>
         <div className="flex items-center gap-3">
           <Cart />
@@ -274,7 +288,14 @@ const Header = () => {
 
           {/* Centro — Logo */}
           <Link href="/">
-            <Image src="/logo.svg" alt="BEWEAR" width={140} height={36.6} />
+            <Image
+              src="/logo.svg"
+              alt="BEWEAR"
+              width={140}
+              height={36.6}
+              priority={true}
+              fetchPriority="high"
+            />
           </Link>
 
           {/* Direita — Busca + Sacola */}

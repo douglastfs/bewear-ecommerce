@@ -32,11 +32,12 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
     <div className="space-y-6 px-5">
       <h2 className="text-xl font-bold">{category.name}</h2>
       <div className="grid grid-cols-2 gap-4">
-        {products.map(product => (
+        {products.map((product, index) => (
           <ProductItem
             key={product.id}
             product={product}
             textContainerClassName="max-w-full"
+            priority={index < 4}
           />
         ))}
       </div>

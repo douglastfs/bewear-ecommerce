@@ -110,8 +110,8 @@ const CartItem = ({
           {/* Controles de quantidade */}
           <div
             className={cn(
-              "flex items-center justify-between rounded-md border",
-              isFullVariant ? "w-[100px] lg:w-[134px]" : "w-20"
+              "flex shrink-0 items-center justify-between rounded-md border whitespace-nowrap",
+              isFullVariant ? "w-[100px] lg:w-[134px]" : "w-16 sm:w-20"
             )}
           >
             <Button
@@ -121,7 +121,7 @@ const CartItem = ({
             >
               {quantity === 1 ? <TrashIcon /> : <MinusIcon />}
             </Button>
-            <p className="font-medium">{quantity}</p>
+            <p className="text-xs font-medium sm:text-sm">{quantity}</p>
             <Button
               variant="ghost"
               className={cn(isFullVariant ? "size-8 lg:size-10" : "h-6 w-6")}
@@ -134,11 +134,17 @@ const CartItem = ({
       </div>
 
       {/* Preço */}
-      <div className={cn("flex", isFullVariant ? "items-center" : "items-end")}>
+      <div
+        className={cn(
+          "flex flex-col",
+          isFullVariant ? "justify-center" : "justify-end"
+        )}
+      >
         <p
           className={cn(
-            "font-medium",
-            isFullVariant ? "text-sm lg:text-base" : "text-sm"
+            "shrink-0 text-right font-medium",
+            isFullVariant ? "text-sm lg:text-base" : "text-sm",
+            "whitespace-nowrap"
           )}
         >
           {formatCentsToBRL(productVariantPriceInCents * quantity)}
