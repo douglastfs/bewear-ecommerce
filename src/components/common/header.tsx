@@ -45,13 +45,24 @@ const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     requestAnimationFrame(() => setIsMenuOpen(false));
   }, [pathname]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="border-b">
+    <header
+      className={`sticky top-0 z-50 border-b bg-white transition-shadow duration-200 ease-in-out ${isScrolled ? "shadow-md" : "shadow-none"}`}
+    >
       {/* ===== MOBILE HEADER ===== */}
       <div className="mx-auto flex max-w-[1440px] items-center justify-between p-5 lg:hidden">
         <Link href="/">
