@@ -38,7 +38,7 @@ const PartnersBrands = () => {
           <ul className="animate-infinite-scroll flex gap-6 px-5 lg:gap-8 lg:px-0">
             {BRANDS.map(brand => (
               <li key={brand.id} className="flex flex-col items-center gap-4">
-                <Card className="flex size-20 items-center justify-center rounded-3xl border-[1.6px] border-[#f1f1f1] bg-white p-0 shadow-none lg:h-[100px] lg:w-[130px]">
+                <Card className="flex size-20 items-center justify-center rounded-3xl border-[1.6px] border-[#f1f1f1] bg-white p-0 lg:h-[100px] lg:w-[130px]">
                   <Image
                     src={brand.logo}
                     alt={brand.name}

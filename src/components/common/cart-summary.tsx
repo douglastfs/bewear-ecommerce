@@ -25,7 +25,7 @@ const CartSummary = ({
   products,
 }: CartSummaryProps) => {
   return (
-    <Card className="rounded-3xl border-[1.6px] border-[#f1f1f1] px-0 py-8 shadow-none">
+    <Card className="rounded-3xl border-[1.6px] border-[#f1f1f1] px-0 py-8">
       <CardHeader className="flex-row">
         <CardTitle className="flex items-center justify-between text-lg">
           Seu pedido

@@ -54,7 +54,7 @@ const OrderCard = ({
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <Card className="border-border gap-0 border-[1.6px] p-0 shadow-none">
+      <Card className="border-border gap-0 border-[1.6px] p-0">
         {/* Trigger */}
         <CollapsibleTrigger className="flex w-full cursor-pointer items-center justify-between p-5 md:px-6 md:py-8">
           {/* Mobile: número + chevron */}

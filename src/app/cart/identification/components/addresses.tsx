@@ -58,7 +58,7 @@ const Addresses = ({
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Identificação</CardTitle>
+          <CardTitle>Selecione ou crie um endereço de entrega</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-8">
           <RadioGroup

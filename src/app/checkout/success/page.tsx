@@ -47,23 +47,29 @@ const CheckoutSuccessPage = async ({
 
   return (
     <>
-      <div className="mb-8 space-y-4 px-5">
+      <div className="mx-auto mb-8 max-w-[1440px] space-y-4 px-5 lg:px-20">
         <CheckoutSteps currentStep={3} />
 
-        <AddressCard address={formattedAddress} />
+        <div className="mt-6 flex flex-col gap-6 lg:mt-8 lg:flex-row lg:gap-12">
+          <div className="lg:w-[60%] lg:flex-none">
+            <AddressCard address={formattedAddress} />
+          </div>
 
-        {/* Resumo do pedido */}
-        <CartSummary
-          subTotalInCents={order.totalPriceInCents}
-          totalInCents={order.totalPriceInCents}
-          products={orderItems.map(item => ({
-            name: item.productVariant.product.name,
-            variantName: item.productVariant.name,
-            quantity: item.quantity,
-            priceInCents: item.priceInCents * item.quantity,
-            imageUrl: item.productVariant.imageUrl,
-          }))}
-        />
+          <div className="lg:w-[40%] lg:flex-none">
+            {/* Resumo do pedido */}
+            <CartSummary
+              subTotalInCents={order.totalPriceInCents}
+              totalInCents={order.totalPriceInCents}
+              products={orderItems.map(item => ({
+                name: item.productVariant.product.name,
+                variantName: item.productVariant.name,
+                quantity: item.quantity,
+                priceInCents: item.priceInCents * item.quantity,
+                imageUrl: item.productVariant.imageUrl,
+              }))}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Dialog de sucesso por cima de tudo */}

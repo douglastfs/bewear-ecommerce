@@ -14,7 +14,7 @@ interface CartPageSummaryProps {
 
 const CartPageSummary = ({ totalPriceInCents }: CartPageSummaryProps) => {
   return (
-    <Card className="border-border rounded-3xl border-[1.6px] px-0 py-8 shadow-none">
+    <Card className="border-border rounded-3xl border-[1.6px] px-0 py-8">
       <CardHeader>
         <CardTitle className="text-lg">Resumo</CardTitle>
       </CardHeader>

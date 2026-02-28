@@ -36,22 +36,30 @@ const ConfirmationPage = async () => {
   }, 0);
 
   return (
-    <div className="mb-8 space-y-4 px-5">
+    <div className="mx-auto mb-8 max-w-[1440px] space-y-4 px-5 lg:px-20">
       <CheckoutSteps currentStep={2} />
-      <AddressCard address={formatAddress(cart.shippingAddress)}>
-        <FinishOrderButton />
-      </AddressCard>
-      <CartSummary
-        subTotalInCents={CartTotalPriceInCents}
-        totalInCents={CartTotalPriceInCents}
-        products={cart.items.map(item => ({
-          name: item.productVariant.product.name,
-          variantName: item.productVariant.name,
-          quantity: item.quantity,
-          priceInCents: item.productVariant.priceInCents * item.quantity,
-          imageUrl: item.productVariant.imageUrl,
-        }))}
-      />
+
+      <div className="mt-6 flex flex-col gap-6 lg:mt-8 lg:flex-row lg:gap-12">
+        <div className="lg:w-[60%] lg:flex-none">
+          <AddressCard address={formatAddress(cart.shippingAddress)}>
+            <FinishOrderButton />
+          </AddressCard>
+        </div>
+
+        <div className="lg:w-[40%] lg:flex-none">
+          <CartSummary
+            subTotalInCents={CartTotalPriceInCents}
+            totalInCents={CartTotalPriceInCents}
+            products={cart.items.map(item => ({
+              name: item.productVariant.product.name,
+              variantName: item.productVariant.name,
+              quantity: item.quantity,
+              priceInCents: item.productVariant.priceInCents * item.quantity,
+              imageUrl: item.productVariant.imageUrl,
+            }))}
+          />
+        </div>
+      </div>
     </div>
   );
 };

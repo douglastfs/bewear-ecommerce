@@ -42,23 +42,29 @@ const CheckoutPageCancel = async () => {
 
   return (
     <>
-      <div className="mb-8 space-y-4 px-5">
+      <div className="mx-auto mb-8 max-w-[1440px] space-y-4 px-5 lg:px-20">
         <CheckoutSteps currentStep={2} />
 
-        {formattedAddress && <AddressCard address={formattedAddress} />}
+        <div className="mt-6 flex flex-col gap-6 lg:mt-8 lg:flex-row lg:gap-12">
+          <div className="lg:w-[60%] lg:flex-none">
+            {formattedAddress && <AddressCard address={formattedAddress} />}
+          </div>
 
-        {/* Resumo do carrinho (agora que mantivemos os dados!!) */}
-        <CartSummary
-          subTotalInCents={totalPriceInCents}
-          totalInCents={totalPriceInCents}
-          products={cart.items.map(item => ({
-            name: item.productVariant.product.name,
-            variantName: item.productVariant.name,
-            quantity: item.quantity,
-            priceInCents: item.productVariant.priceInCents * item.quantity,
-            imageUrl: item.productVariant.imageUrl,
-          }))}
-        />
+          <div className="lg:w-[40%] lg:flex-none">
+            {/* Resumo do carrinho (agora que mantivemos os dados!!) */}
+            <CartSummary
+              subTotalInCents={totalPriceInCents}
+              totalInCents={totalPriceInCents}
+              products={cart.items.map(item => ({
+                name: item.productVariant.product.name,
+                variantName: item.productVariant.name,
+                quantity: item.quantity,
+                priceInCents: item.productVariant.priceInCents * item.quantity,
+                imageUrl: item.productVariant.imageUrl,
+              }))}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Dialog de Cancelamento por cima de tudo */}

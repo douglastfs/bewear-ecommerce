@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { XCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -20,15 +20,9 @@ const CancelDialog = () => {
   // Quando o Dialog for fechado (clicar fora ou press ESC), volta para o cart
   return (
     <Dialog open={true} onOpenChange={() => router.push("/cart")}>
-      <DialogContent className="flex flex-col items-center gap-8 rounded-3xl px-5 pt-16 pb-8">
+      <DialogContent className="flex flex-col items-center gap-8 rounded-3xl px-5 pt-16 pb-8 sm:max-w-md">
         <div className="flex h-32 w-32 items-center justify-center rounded-full bg-red-50">
-          <Image
-            src="/icons/close.svg"
-            alt="Ícone de cancelamento"
-            width={64}
-            height={64}
-            className="text-red-500"
-          />
+          <XCircle strokeWidth={1.5} className="h-16 w-16 text-red-500" />
         </div>
 
         <DialogHeader className="items-center gap-6 text-center">
