@@ -6,13 +6,18 @@ import { auth } from "@/lib/auth";
 
 import OrderCard from "./components/order-card";
 
+export const metadata = {
+  title: "Meus Pedidos | BEWEAR",
+  description: "Acompanhe o status dos seus pedidos.",
+};
+
 const MyOrdersPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user.id) {
-    redirect("/login");
+    redirect("/authentication");
   }
 
   const orders = await getOrdersByUserId(session.user.id);

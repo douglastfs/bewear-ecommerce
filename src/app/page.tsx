@@ -10,6 +10,12 @@ import {
   getProductsWithVariants,
 } from "@/data-access/product";
 
+export const metadata = {
+  title: "BEWEAR | Moda com estilo",
+  description:
+    "Descubra as últimas tendências em moda. Roupas, acessórios e muito mais com entrega para todo o Brasil.",
+};
+
 // Configuração estática do showcase — preparado para virar dinâmico via admin
 const SHOWCASE_CONFIG = [
   {

@@ -61,7 +61,7 @@ const CartPageClient = ({
               </h1>
 
               {/* Itens do Carrinho */}
-              <div className="flex flex-col gap-6 lg:rounded-3xl lg:border-[1.6px] lg:border-[#f1f1f1] lg:p-8">
+              <div className="lg:border-border flex flex-col gap-6 lg:rounded-3xl lg:border-[1.6px] lg:p-8">
                 {cart.items.map((item, index) => (
                   <div key={item.id} className="flex flex-col gap-6">
                     <CartItem

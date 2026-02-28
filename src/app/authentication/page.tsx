@@ -3,6 +3,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SignInForm from "./components/sign-in-form";
 import SignUpForm from "./components/sign-up-form";
 
+export const metadata = {
+  title: "Entrar | BEWEAR",
+  description:
+    "Faça login ou crie sua conta para acompanhar pedidos e aproveitar ofertas exclusivas.",
+};
+
 const Authentication = async () => {
   return (
     <div className="flex w-full flex-col gap-6 p-5">

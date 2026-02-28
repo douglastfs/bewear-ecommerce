@@ -48,7 +48,7 @@ const SuccessDialog = () => {
             asChild
             variant="outline"
             size="lg"
-            className="w-full rounded-full border-[1.6px] border-[#f1f1f1] text-black hover:bg-gray-50"
+            className="border-border w-full rounded-full border-[1.6px] text-black hover:bg-gray-50"
           >
             <Link href="/">Página inicial</Link>
           </Button>

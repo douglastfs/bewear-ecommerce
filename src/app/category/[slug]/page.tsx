@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import ProductItem from "@/components/common/product-item";
@@ -7,6 +8,18 @@ import { getProductsByCategoryId } from "@/data-access/product";
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
 }
+
+export const generateMetadata = async ({
+  params,
+}: CategoryPageProps): Promise<Metadata> => {
+  const { slug } = await params;
+  const category = await getCategoryBySlug(slug);
+  if (!category) return {};
+  return {
+    title: `${category.name} | BEWEAR`,
+    description: `Confira os produtos da categoria ${category.name}.`,
+  };
+};
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {
   const { slug } = await params;

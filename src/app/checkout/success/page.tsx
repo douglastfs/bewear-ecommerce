@@ -9,6 +9,11 @@ import { auth } from "@/lib/auth";
 
 import SuccessDialog from "./components/success-dialog";
 
+export const metadata = {
+  title: "Pedido Confirmado | BEWEAR",
+  description: "Seu pedido foi efetuado com sucesso.",
+};
+
 interface CheckoutSuccessPageProps {
   searchParams: Promise<{ orderId?: string }>;
 }

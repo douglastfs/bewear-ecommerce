@@ -10,12 +10,17 @@ import { auth } from "@/lib/auth";
 import { formatAddress } from "../helpers/address";
 import FinishOrderButton from "./components/finish-order-button";
 
+export const metadata = {
+  title: "Confirmação | BEWEAR",
+  description: "Revise e confirme os detalhes do seu pedido.",
+};
+
 const ConfirmationPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   if (!session?.user.id) {
-    redirect("/");
+    redirect("/authentication");
   }
   const cart = await getCartByUserId(session.user.id);
   if (!cart || cart.items.length === 0) {

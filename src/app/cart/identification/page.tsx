@@ -9,12 +9,17 @@ import { auth } from "@/lib/auth";
 
 import Addresses from "./components/addresses";
 
+export const metadata = {
+  title: "Identificação | BEWEAR",
+  description: "Selecione o endereço de entrega para o seu pedido.",
+};
+
 const IdentificationPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   if (!session?.user.id) {
-    redirect("/");
+    redirect("/authentication");
   }
   const cart = await getCartByUserId(session.user.id);
   if (!cart || cart.items.length === 0) {

@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 
+import { getCart } from "@/actions/get-cart";
 import { getCartByUserId } from "@/data-access/cart";
 import { getNewlyCreatedProducts } from "@/data-access/product";
 import { auth } from "@/lib/auth";
@@ -22,7 +23,7 @@ const CartPage = async () => {
   // Não há redirecionamento agressivo pois usuários não-logados podem querer ver a página vazia.
 
   // 2. Fetch da DAL do Carrinho e Cálculos
-  let cart = undefined;
+  let cart: Awaited<ReturnType<typeof getCart>> | undefined;
   if (session?.user) {
     const rawCart = await getCartByUserId(session.user.id);
     if (rawCart) {
@@ -39,13 +40,11 @@ const CartPage = async () => {
 
   const recommendedProducts = await getNewlyCreatedProducts();
 
-  // 4. Injetar num Client Component sem quebras/erros
+  // 3. Injetar num Client Component sem quebras/erros
   return (
     <main className="bg-white">
       <CartPageClient
-        initialCart={
-          cart as Parameters<typeof CartPageClient>[0]["initialCart"]
-        }
+        initialCart={cart}
         recommendedProducts={recommendedProducts}
       />
     </main>
