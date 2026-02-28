@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
 
@@ -19,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
+import { useViaCep } from "@/hooks/queries/use-viacep";
 
 interface NewAddressFormProps {
   onAddressCreated?: (addressId: string) => void;
@@ -43,6 +45,30 @@ const NewAddressForm = ({ onAddressCreated }: NewAddressFormProps) => {
       state: "",
     },
   });
+
+  const watchedCep = form.watch("cep");
+  const { setValue } = form;
+  const { data: addressData } = useViaCep(watchedCep || "");
+
+  useEffect(() => {
+    if (addressData) {
+      setValue("address", addressData.logradouro || "", {
+        shouldValidate: true,
+      });
+      setValue("neighborhood", addressData.bairro || "", {
+        shouldValidate: true,
+      });
+      setValue("city", addressData.localidade || "", {
+        shouldValidate: true,
+      });
+      setValue("state", addressData.uf || "", { shouldValidate: true });
+
+      // Focando no campo número silenciosamente após achar o CEP
+      setTimeout(() => {
+        document.getElementsByName("number")[0]?.focus();
+      }, 100);
+    }
+  }, [addressData, setValue]);
 
   async function onSubmit(values: CreateShippingAddressSchema) {
     const shippingAddress = await mutateAsync(values);
