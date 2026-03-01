@@ -1,5 +1,7 @@
 "use client";
 
+import { useIsMutating } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -13,6 +15,10 @@ interface CartPageSummaryProps {
 }
 
 const CartPageSummary = ({ totalPriceInCents }: CartPageSummaryProps) => {
+  const isAdding = useIsMutating({ mutationKey: ["add-cart-product"] });
+  const isRemoving = useIsMutating({ mutationKey: ["remove-cart-product"] });
+  const isCartMutating = isAdding > 0 || isRemoving > 0;
+
   return (
     <Card className="border-border rounded-3xl border-[1.6px] px-0 py-8">
       <CardHeader>
@@ -64,9 +70,16 @@ const CartPageSummary = ({ totalPriceInCents }: CartPageSummaryProps) => {
         </div>
 
         {/* Botão continuar */}
-        <Button className="w-full rounded-full" size="lg" asChild>
-          <Link href="/cart/identification">Continuar</Link>
-        </Button>
+        {isCartMutating ? (
+          <Button className="w-full rounded-full" size="lg" disabled>
+            <Loader2 className="mr-2 size-4 animate-spin" />
+            Atualizando...
+          </Button>
+        ) : (
+          <Button className="w-full rounded-full" size="lg" asChild>
+            <Link href="/cart/identification">Continuar</Link>
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

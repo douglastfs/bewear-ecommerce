@@ -208,9 +208,9 @@ interface Props {
 }
 ```
 
-### Imagens
+### Imagens e LCP (Largest Contentful Paint)
 
-Sempre usar `next/image` com `sizes` adequado:
+O Google mede severamente o tempo que a maior imagem útil demora para carregar. Para imagens de Hero Banner, Logos ou as 4 primeiras fotos da `product-list`, a tag nativa atrasaria-as (Lazy Load). **Sempre** force Prioridade para elementos acima da dobra (_Above The Fold_).
 
 ```tsx
 <Image
@@ -219,6 +219,8 @@ Sempre usar `next/image` com `sizes` adequado:
   width={0}
   height={0}
   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+  priority={true} // <-- EXTREMAMENTE IMPORTANTE se for topo de página! Mata o F5 Flicker.
+  fetchPriority="high" // <-- Apenas para LCPs supremos (ex: Logo do site)
   className="h-auto w-full rounded-3xl"
 />
 ```

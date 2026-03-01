@@ -15,9 +15,30 @@ export const generateMetadata = async ({
   const { slug } = await params;
   const category = await getCategoryBySlug(slug);
   if (!category) return {};
+
+  // Puxa o primeiro produto da categoria (se existir) para servir de Thumbnail Rica!
+  const products = await getProductsByCategoryId(category.id);
+  const ogImage =
+    products.length > 0 && products[0].variants.length > 0
+      ? products[0].variants[0].imageUrl
+      : "/banner-01.png";
+
   return {
-    title: `${category.name} | BEWEAR`,
-    description: `Confira os produtos da categoria ${category.name}.`,
+    title: category.name,
+    description: `Confira os produtos da categoria ${category.name}. Diversas opções e estilos.`,
+    openGraph: {
+      title: `${category.name} | BEWEAR`,
+      description: `Confira os produtos da categoria ${category.name} direto pelo site da BEWEAR.`,
+      url: `/category/${slug}`,
+      images: [
+        {
+          url: ogImage,
+          width: 800,
+          height: 800,
+          alt: `Categoria ${category.name}`,
+        },
+      ],
+    },
   };
 };
 

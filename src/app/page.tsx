@@ -11,9 +11,23 @@ import {
 } from "@/data-access/product";
 
 export const metadata = {
-  title: "BEWEAR | Moda com estilo",
+  title: "BEWEAR | A sua loja de Moda Online",
   description:
     "Descubra as últimas tendências em moda. Roupas, acessórios e muito mais com entrega para todo o Brasil.",
+  openGraph: {
+    title: "BEWEAR | A sua loja de Moda Online",
+    description:
+      "Descubra as últimas tendências em moda. Roupas, acessórios e muito mais com entrega para todo o Brasil.",
+    url: "/",
+    images: [
+      {
+        url: "/banner-01.png",
+        width: 1200,
+        height: 630,
+        alt: "Hero Banner BEWEAR",
+      },
+    ],
+  },
 };
 
 // Configuração estática do showcase — preparado para virar dinâmico via admin

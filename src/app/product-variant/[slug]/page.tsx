@@ -15,6 +15,38 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const generateMetadata = async ({ params }: ProductPageProps) => {
+  const { slug } = await params;
+  const productVariant = await getProductVariantBySlug(slug);
+
+  if (!productVariant) return {};
+
+  return {
+    title: `${productVariant.product.name} - ${productVariant.name}`,
+    description: productVariant.product.description.substring(0, 160) + "...",
+    openGraph: {
+      title: `${productVariant.product.name} - ${productVariant.name} | BEWEAR`,
+      description: productVariant.product.description.substring(0, 160) + "...",
+      type: "product",
+      url: `/product-variant/${slug}`,
+      images: [
+        {
+          url: productVariant.imageUrl,
+          width: 800,
+          height: 800,
+          alt: productVariant.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${productVariant.product.name} | BEWEAR`,
+      description: productVariant.product.description.substring(0, 160) + "...",
+      images: [productVariant.imageUrl],
+    },
+  };
+};
+
 const ProductVariantPage = async ({ params }: ProductPageProps) => {
   const { slug } = await params;
 

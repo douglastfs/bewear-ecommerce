@@ -296,6 +296,7 @@ import { Loader2 } from "lucide-react";
 
 import type { ProductWithVariants } from "@/data-access/product";
 import { useCart } from "@/hooks/queries/use-cart";
+import { useIsMutating } from "@tanstack/react-query";
 
 interface MeuClientProps {
   initialCart?: Awaited<ReturnType<typeof getCart>>;
@@ -304,6 +305,13 @@ interface MeuClientProps {
 
 const MeuClient = ({ initialCart, products }: MeuClientProps) => {
   const { data: cart, isLoading } = useCart({ initialData: initialCart });
+
+  // 6. Protegendo Navegações de Transações Falsas/Otimistas
+  const isAdding = useIsMutating({ mutationKey: ["add-cart-product"] });
+  if (isAdding > 0) {
+    // Escudo: O banco de dados está sincronizando silenciosamente.
+    // É obrigatório travar botões como "Finalizar Compra" aqui.
+  }
 
   // Loading SÓ aparece se NÃO houve dados iniciais do servidor
   if (isLoading && !initialCart) {

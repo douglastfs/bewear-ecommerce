@@ -1,6 +1,7 @@
 "use client";
 
-import { ShoppingBagIcon } from "lucide-react";
+import { useIsMutating } from "@tanstack/react-query";
+import { Loader2, ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,6 +25,10 @@ const Cart = () => {
   const { data: cart } = useCart();
   const pathname = usePathname();
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const isAdding = useIsMutating({ mutationKey: ["add-cart-product"] });
+  const isRemoving = useIsMutating({ mutationKey: ["remove-cart-product"] });
+  const isCartMutating = isAdding > 0 || isRemoving > 0;
 
   // Fecha o Sheet do carrinho automaticamente ao navegar
   useEffect(() => {
@@ -94,9 +99,16 @@ const Cart = () => {
                     </p>
                   </div>
                 </div>
-                <Button className="rounded-full" asChild>
-                  <Link href="/cart/identification">Finalizar compra</Link>
-                </Button>
+                {isCartMutating ? (
+                  <Button className="rounded-full" disabled>
+                    <Loader2 className="mr-2 size-4 animate-spin" />
+                    Atualizando...
+                  </Button>
+                ) : (
+                  <Button className="rounded-full" asChild>
+                    <Link href="/cart/identification">Finalizar compra</Link>
+                  </Button>
+                )}
               </div>
             )}
           </div>

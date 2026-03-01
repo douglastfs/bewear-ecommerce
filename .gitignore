@@ -44,3 +44,4 @@ next-env.d.ts
 # docs
 /docs/study
 /.agent/skills/create-study-doc
+/.agent/skills/create-readme
