@@ -27,7 +27,7 @@ export const generateMetadata = async ({ params }: ProductPageProps) => {
     openGraph: {
       title: `${productVariant.product.name} - ${productVariant.name} | BEWEAR`,
       description: productVariant.product.description.substring(0, 160) + "...",
-      type: "product",
+      type: "website",
       url: `/product-variant/${slug}`,
       images: [
         {

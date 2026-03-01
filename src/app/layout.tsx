@@ -16,6 +16,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  ),
   title: {
     template: "%s | BEWEAR",
     default: "BEWEAR | Moda com Estilo",
@@ -48,7 +51,7 @@ export default async function RootLayout({
   const categories = await getCategories();
 
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body
         className={`${poppins.variable} flex min-h-dvh flex-col font-sans antialiased`}
       >

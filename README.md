@@ -61,6 +61,18 @@
 - Página "Meus Pedidos" com histórico completo
 - Status do pedido em tempo real (pendente → pago → produção → enviado → entregue)
 
+### ⚡ UX Avançada & Performance
+
+- **Zero-Latency Mutations:** Atualizações otimistas no carrinho para resposta em **0ms** alterando RAM enquanto o Supabase sincroniza em background.
+- **Phantom Basket Shield:** Uso de `useIsMutating` do TanStack Query para interceptar e bloquear navegação fluida em botões cruciais (como Checkout) até a finalização de transações no banco, evitando compras com dados obsoletos.
+- **Otimização LCP (Core Web Vitals):** Forçamento nativo de carregamento agressivo via `priority` nas imagens chaves acima da dobra (Hero Banner e Logos) resolvendo flickering em renderização SSR.
+
+### 🌐 SEO Social (Open Graph & Twitter Cards)
+
+- Tags base de Metadados definidas na raiz para compartilhamento elegante em chats de LinkedIn, WhatsApp e Redes Sociais.
+- Roteamento e fetching nativo SSR em páginas focais (`product-variant/[slug]`) injetando a imagem crua da variante do produto em alta definição no Thumbnail do **Open Graph**.
+- Fallback em Categorias gerando interatividade instantânea pelos `metadata` dinâmicos.
+
 ---
 
 ## 🏗️ Arquitetura
@@ -226,12 +238,13 @@ Acesse [http://localhost:3000](http://localhost:3000) 🚀
 ```
 bewear/
 ├── src/
-│   ├── actions/                    # 8 Server Actions
+│   ├── actions/                    # 9 Server Actions
 │   │   ├── add-cart-product/
 │   │   ├── create-checkout-session/
 │   │   ├── create-shipping-address/
 │   │   ├── finish-order/
 │   │   ├── get-cart/
+│   │   ├── get-categories/
 │   │   ├── get-shipping-addresses/
 │   │   ├── remove-cart-product/
 │   │   └── update-cart-shipping-address/
@@ -248,8 +261,8 @@ bewear/
 │   │   └── api/stripe/webhook/     # Webhook do Stripe
 │   │
 │   ├── components/
-│   │   ├── common/                 # 12 componentes reutilizáveis
-│   │   └── ui/                     # 16 componentes shadcn/ui
+│   │   ├── common/                 # 14 componentes reutilizáveis
+│   │   └── ui/                     # 18 componentes shadcn/ui
 │   │
 │   ├── data-access/                # DAL — 5 módulos
 │   │   ├── cart.ts
@@ -281,14 +294,15 @@ bewear/
 | Métrica                   | Quantidade |
 | ------------------------- | ---------- |
 | Tabelas no banco          | 10         |
-| Server Actions            | 8          |
+| Server Actions            | 9          |
 | Módulos DAL               | 5          |
-| Componentes UI (shadcn)   | 16         |
-| Componentes reutilizáveis | 12         |
+| Componentes UI (shadcn)   | 18         |
+| Componentes reutilizáveis | 14         |
 | Categorias de produtos    | 6          |
 | Produtos                  | 24         |
 | Variantes de produto      | 60+        |
-| Custom Hooks              | 10         |
+| Custom Hooks              | 13         |
+| Módulos Documentados      | 7 Skills   |
 
 ---
 

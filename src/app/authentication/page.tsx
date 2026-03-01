@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import SignInForm from "./components/sign-in-form";
@@ -18,10 +20,14 @@ const Authentication = async () => {
           <TabsTrigger value="sign-up">Criar conta</TabsTrigger>
         </TabsList>
         <TabsContent value="sign-in" className="mt-6">
-          <SignInForm />
+          <Suspense fallback={<div>Carregando...</div>}>
+            <SignInForm />
+          </Suspense>
         </TabsContent>
         <TabsContent value="sign-up" className="mt-6">
-          <SignUpForm />
+          <Suspense fallback={<div>Carregando...</div>}>
+            <SignUpForm />
+          </Suspense>
         </TabsContent>
       </Tabs>
     </div>
